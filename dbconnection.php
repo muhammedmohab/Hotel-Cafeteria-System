@@ -2,5 +2,6 @@
 
 $database = require 'Bootstrap.php' ; 
 
-$users = $database->selectALL('users');
+$users = $database->selectALL('user');
+//var_dump($users);
 ?>

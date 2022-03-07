@@ -2,7 +2,7 @@
 
 require 'connection.php' ;
 
-require 'QueryBuilder.php' ; 
+require 'UserQueryBuilder.php' ; 
 
 return new QueryBuilder( Connection::make()) ;
 

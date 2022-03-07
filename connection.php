@@ -1,22 +1,19 @@
 <?php
-// $dsn = 'mysql:dbname=php_db;host=127.0.0.1;port=3306;';
-// $user = 'root';
-// $password = '12345';
-//     try {
-//     $db = new PDO($dsn, $user, $password);
-//     var_dump($db);
-//     } catch (PDOException $e) {
-//         echo 'Connection failed: ' . $e->getMessage();
-//     }
-
 class Connection{
 
     public static function make () {
 
         try{
-            $dsn = 'mysql:dbname=php_db;host=127.0.0.1;port=3306;';
-            $user = 'root';
-            $password = '12345';
+            $database_info= [] ; 
+            $data= file(".env");
+            foreach($data as $d ){
+               $word = explode( "=",$d);
+               $database_info[$word[0]]=trim($word[1]);
+            }
+            $dsn = $database_info['connection'].":dbname=".$database_info["dbname"].";host=".$database_info["host"].";port=".$database_info["port"].";";
+
+            $user = $database_info["user"];
+            $password = $database_info["password"];
 
             return new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
