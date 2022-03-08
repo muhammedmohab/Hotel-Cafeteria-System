@@ -1,12 +1,16 @@
 <?php
+require '../../Model/DTO/User.php';
 require '../../Model/DatabaseConnectionModel.php';
 require '../../Model/QueryModels/UserQueryModel.php';
 $DB = new DatabaseConnectionModel();
 $connect = $DB->connect();
 $op = new UserQueryModel($connect);
+
+
+
 // validation
 $errors = [];
-$userid=$_REQUEST["id"];
+$userid = $_REQUEST["id"];
 foreach ($_REQUEST as $key => $val) {
     if (empty($_REQUEST[$key])) {
 
@@ -46,6 +50,7 @@ function checkequalpassword()
     }
 }
 checkequalpassword();
+
 // function to check username
 function checkuser($val)
 {
@@ -58,11 +63,11 @@ function checkuser($val)
 
 function checkemail($email, $id)
 {
-    global $errors,$op;
+    global $errors, $op;
     if (!preg_match("/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/", $email)) {
         $errors['email'] = "invallid email";
     } else {
-        $allusers=$op->selectAllUsers();
+        $allusers = $op->selectAllUsers();
         if (count($allusers) > 0) {
             foreach ($allusers as $user) {
                 if ($user["email"] == $email && $user["id"] != intval($id)) {
@@ -108,7 +113,7 @@ checkfileextension();
 
 
 
-$str = "../../View/updateUser.php?id=".$userid. "&";
+$str = "../../View/updateUser.php?id=" . $userid . "&";
 if (count($errors) > 0) {
     foreach ($errors as $k => $val) {
         $str .= $k . "=" . $val . "&";
@@ -119,11 +124,11 @@ if (count($errors) > 0) {
 
 
 
-$userupdate=new User($_REQUEST["username"],$_REQUEST["email"],$_REQUEST["password"],$_REQUEST["roomNo"],$file_name);
+$userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $file_name);
 $op->updateUser(intVal($userid), $userupdate);
 
 
-move_uploaded_file($file_tmp, "../../public/images/profile_images/". $file_name);
+move_uploaded_file($file_tmp, "../../public/images/profile_images/" . $file_name);
 // show the lines (users) in file in the table
 
 header("Location:../../View/allUsers.php");

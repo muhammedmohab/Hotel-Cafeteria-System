@@ -13,7 +13,13 @@ class UserQueryModel{
         $result = $stmt->fetchAll();
         return $result;
     }
-
+    public function selectAllRoomNumbers(){
+        $stmt = $this->connection->prepare("SELECT roomNumber FROM user");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
     public function selectSpecificUser(int $id){
         $stmt = $this->connection->prepare("SELECT * FROM user WHERE id =:userId");
         $stmt->bindParam(":userId",$id, PDO::PARAM_INT);

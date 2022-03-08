@@ -5,6 +5,7 @@ $DB = new DatabaseConnectionModel();
 $connect = $DB->connect();
 $database = new UserQueryModel($connect);
 $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
+$all_rooms=$database->selectAllRoomNumbers();
 
 ?>
 <!DOCTYPE html>
@@ -38,6 +39,12 @@ $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
     <link rel="stylesheet" href="../Assets/css/animate.min.css">
     <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
     <link rel="stylesheet" href="../Assets/css/main.css">
+    <style>
+      label{
+          font-weight: bold;
+      }    
+       
+    </style>
 </head>
 
 <body>
@@ -52,7 +59,6 @@ $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
                         Start your day with <br>
                         a black Coffee
                     </h1>
-                    <a href="#" class="primary-btn text-uppercase">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -63,7 +69,7 @@ $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
     <div class="container">
         <div class="row">
             <div class="col-12 ">
-                <h2 class="text-info mb-5 mt-3"> UpdateUser </h2>
+                <h2 class="mb-5 mt-3" style="color:#543804;"> UpdateUser </h2>
                 <form method="post" action="../Controllers/UserControllers/UpdateController.php" enctype="multipart/form-data">
                     <input name="id" value="<?php echo $user["id"]; ?>" hidden>
                     <div class="mb-2 form-group">
@@ -144,10 +150,10 @@ $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
                                     <option value=""></option>
                                     <?php
 
-                                    $all_rooms = ["Application1", "Application2", "Cloud"];
                                     foreach ($all_rooms as $room) {
+                                      
 
-                                        echo '<option value="' . $room . '" id="flexCheckDefault1"' . (($user["roomNumber"] == $room) ? "selected" : "") . '>' . $room . '</option>';
+                                        echo '<option value="' . $room["roomNumber"] . '" id="flexCheckDefault1"' . (($user["roomNumber"] == $room["roomNumber"]) ? "selected" : "") . '>' . $room["roomNumber"] . '</option>';
                                     }
 
                                     ?>
@@ -186,10 +192,10 @@ $user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
 
                             <div class="col-auto mr-4">
 
-                                <button type="submit" class="btn btn-primary mb-4">update User</button>
+                                <button type="submit" class="btn btn-warning  mb-4">Confirm</button>
                             </div>
                             <div class="col-auto">
-                                <a class='btn btn-info mb-4' href='showusers.php' role='button'>cancel</a>
+                                <a class='btn btn-info mb-4' href='allUsers.php' role='button'>cancel</a>
                             </div>
                         </div>
                     </div>

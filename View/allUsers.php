@@ -34,25 +34,7 @@
 <body>
 
     <header id="header" id="home">
-        <div class="header-top">
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col-lg-8 col-sm-4 col-8 header-top-right no-padding">
-                        <ul>
-                            <li>
-                                Mon-Fri: 8am to 2pm
-                            </li>
-                            <li>
-                                Sat-Sun: 11am to 4pm
-                            </li>
-                            <li>
-                                <a href="tel:(012) 6985 236 7512">(012) 6985 236 7512</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
@@ -80,7 +62,6 @@
                         Start your day with <br>
                         a black Coffee
                     </h1>
-                    <a href="#" class="primary-btn text-uppercase">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -121,7 +102,7 @@
                                 $id = $value["id"];
                                 if ($k == "admin"  || $k == "password") continue;
                                 if ($k == "image") {
-                                    echo "<td><img  src='../../public/images/profile_images/" . $val . "' width=30px height=30px/></td>";
+                                    echo "<td><img  src='../public/images/profile_images/" . $val . "' width=30px height=30px/></td>";
                                 } else {
                                     echo "<td>" . $val . "</td>";
                                 }
