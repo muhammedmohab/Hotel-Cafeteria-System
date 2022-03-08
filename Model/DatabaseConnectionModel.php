@@ -5,7 +5,7 @@ class Connection{
 
         try{
             $database_info= [] ; 
-            $data= file(".env");
+            $data= file("../.env");
             foreach($data as $d ){
                $word = explode( "=",$d);
                $database_info[$word[0]]=trim($word[1]);
