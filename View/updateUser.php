@@ -1,11 +1,8 @@
 <?php
-require '../Model/DatabaseConnectionModel.php';
-require '../Model/QueryModels/UserQueryModel.php';
-$DB = new DatabaseConnectionModel();
-$connect = $DB->connect();
-$database = new UserQueryModel($connect);
-$user = $database->selectSpecificUser(intval($_REQUEST["id"]))[0];
-$all_rooms=$database->selectAllRoomNumbers();
+
+require "../Bootstap/dbuser.php";
+$user = $dbuser->selectSpecificUser(intval($_REQUEST["id"]))[0];
+$all_rooms=$dbuser->selectAllRoomNumbers();
 
 ?>
 <!DOCTYPE html>
@@ -64,7 +61,7 @@ $all_rooms=$database->selectAllRoomNumbers();
         <div class="row">
             <div class="col-12 ">
                 <h2 class="mb-5 mt-3" style="color:#543804;"> UpdateUser </h2>
-                <form method="post" action="../Controllers/UserControllers/UpdateController.php" enctype="multipart/form-data">
+                <form method="post" action="../Controllers/UpdateController.php" enctype="multipart/form-data">
                     <input name="id" value="<?php echo $user["id"]; ?>" hidden>
                     <div class="mb-2 form-group">
                         <div class="row g-3 align-items-center">

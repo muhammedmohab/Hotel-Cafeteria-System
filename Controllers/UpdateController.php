@@ -1,16 +1,16 @@
 <?php
-require '../../Model/DTO/User.php';
-require '../../Model/DatabaseConnectionModel.php';
-require '../../Model/QueryModels/UserQueryModel.php';
-$DB = new DatabaseConnectionModel();
-$connect = $DB->connect();
-$op = new UserQueryModel($connect);
-
+require "../Model/DTO/User.php";
+require "../Bootstap/dbuser.php";
+$op = $dbuser;
 
 
 // validation
 $errors = [];
+$file_name = '';
+$file_tmp = "";
 $userid = $_REQUEST["id"];
+
+
 foreach ($_REQUEST as $key => $val) {
     if (empty($_REQUEST[$key])) {
 
@@ -79,8 +79,7 @@ function checkemail($email, $id)
 }
 
 
-$file_name = '';
-$file_tmp = "";
+
 function checkfileextension()
 {
     global $errors;
@@ -91,7 +90,6 @@ function checkfileextension()
         $file_name = $_FILES['image']['name'];
         $file_size = $_FILES['image']['size'];
         $file_tmp = $_FILES['image']['tmp_name'];
-        $file_type = $_FILES['image']['type'];
         $file_ext = strtolower(explode('.', $_FILES['image']['name'])[1]);
 
         $expensions = array("jpeg", "jpg", "png");
@@ -109,17 +107,16 @@ function checkfileextension()
     }
 }
 
-if($_REQUEST["old_image"]&& empty($_FILES['image']['name']))
-{
-    $file_name=$_REQUEST["old_image"];
-}else{
+if ($_REQUEST["old_image"] && empty($_FILES['image']['name'])) {
+    $file_name = $_REQUEST["old_image"];
+} else {
     checkfileextension();
 }
 
 
 
 
-$str = "../../View/updateUser.php?id=" . $userid . "&";
+$str = "../View/updateUser.php?id=" . $userid . "&";
 if (count($errors) > 0) {
     foreach ($errors as $k => $val) {
         $str .= $k . "=" . $val . "&";
@@ -134,8 +131,8 @@ $userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["pas
 $op->updateUser(intVal($userid), $userupdate);
 
 
-move_uploaded_file($file_tmp, "../../public/images/profile_images/" . $file_name);
+move_uploaded_file($file_tmp, "../public/images/profile_images/" . $file_name);
 // show the lines (users) in file in the table
 
-header("Location:../../View/allUsers.php");
+header("Location:../View/allUsers.php");
 exit;

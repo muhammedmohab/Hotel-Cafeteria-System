@@ -1,30 +1,25 @@
 <?php
-class DatabaseConnectionModel{
-    private $sdn = "mysql";
-    private $dbname = "cafateria";
-    private $host = "localhost";
-    private $port = "3306";
-    private $username = "root";
-    private $password = "";
-    protected $conn;
-    private $URL;
+class Connection{
 
-    public function __construct()
-    {
-		$this->URL = $this->sdn.":dbname=".$this->dbname.";host=".$this->host.";port=".$this->port.";charset=utf8";
-        try {
-            $this->conn = new \PDO($this->URL, $this->username, $this->password);
+    public static function make () {
+
+        try{
+            $database_info= [] ; 
+            $data= file("../.env");
+            foreach($data as $d ){
+               $word = explode( "=",$d);
+               $database_info[$word[0]]=trim($word[1]);
+            }
+            $dsn = $database_info['connection'].":dbname=".$database_info["dbname"].";host=".$database_info["host"].";port=".$database_info["port"].";";
+
+            $user = $database_info["user"];
+            $password = $database_info["password"];
+
+            return new PDO($dsn, $user, $password);
         } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+            echo 'Connection failed: ' . $e->getMessage();
         }
     }
 
-    public function connect(){
-        return $this->conn;
-    }
-
-    public function close()
-    {
-        return $this->connection = null;;
-    }
-} 
+}
+?>

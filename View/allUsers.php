@@ -43,7 +43,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="../index.html">Home</a></li>
-                        <li><a href="../Controllers/UserControllers/UserController.php">all users</a></li>
+                        <li><a href="../Controllers/UserController.php">all users</a></li>
                         <li><a href="">Coffee</a></li>
                         <li><a href="">Review</a></li>
                         <li><a href="">Blog</a></li>
@@ -64,7 +64,7 @@
     <!-- End banner Area -->
 
     <div class="container-fluid mt-3 text-center" style="height:100vh">
-        <a class='genric-btn success my-3' href='adduser.php' role='button'>Add User</a>
+        <a class='genric-btn success my-3' href='# role='button'>Add User</a>
         <div class="row">
             <div class="col text-center">
                 <table class="table table-striped text-center">
@@ -83,14 +83,8 @@
                     <tbody class="bg-light">
                         <?php
 
-                        require '../Model/DatabaseConnectionModel.php';
-                        require '../Model/QueryModels/UserQueryModel.php';
-
-                        $DB = new DatabaseConnectionModel();
-                        $connect = $DB->connect();
-                        $database = new UserQueryModel($connect);
-
-                        $alluser = $database->selectAllUsers();
+                        require "../Bootstap/dbuser.php";
+                        $alluser = $dbuser->selectAllUsers();
                         foreach ($alluser as $key => $value) {
                             echo "<tr>";
                             foreach ($value as $k => $val) {
@@ -105,7 +99,7 @@
                             echo "
                            <td><a class='genric-btn info small' href='UpdateUser.php?id=$id' role='button'>Update</a>
                            </td>
-                           <td><a class='genric-btn danger small' href='../Controllers/UserControllers/DeleteController.php?id=$id' role='button'>Delete</a>
+                           <td><a class='genric-btn danger small' href='../Controllers/DeleteController.php?id=$id' role='button'>Delete</a>
                            </td>
                            </tr>";
                         }
