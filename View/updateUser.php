@@ -53,13 +53,7 @@ $all_rooms=$database->selectAllRoomNumbers();
     <section class="banner-area" id="home">
         <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-start">
-                <div class="banner-content col-lg-7">
-                    <h6 class="text-white text-uppercase">Now you can feel the Energy</h6>
-                    <h1>
-                        Start your day with <br>
-                        a black Coffee
-                    </h1>
-                </div>
+            
             </div>
         </div>
     </section>
@@ -174,9 +168,12 @@ $all_rooms=$database->selectAllRoomNumbers();
                             <div class="col-2">
                                 <label for="formFileLg" class="form-label">Select Image</label>
                             </div>
+                            <input name="old_image" value="<?php echo $user["image"]; ?>" hidden>
                             <div class="col-6">
-                                <input class="form-control form-control-lg" id="formFileLg" type="file" name="image">
-
+                                <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" >
+                                <span class="form-text" style="color: black">
+                                <?php echo $user["image"]; ?>
+                                </span>
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -185,6 +182,7 @@ $all_rooms=$database->selectAllRoomNumbers();
                                     } ?>
                                 </span>
                             </div>
+
                         </div>
                     </div>
                     <div class="mb-2 mt-5 form-group">

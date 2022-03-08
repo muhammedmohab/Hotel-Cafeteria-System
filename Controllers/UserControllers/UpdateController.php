@@ -108,8 +108,13 @@ function checkfileextension()
         }
     }
 }
+if($_REQUEST["old_image"])
+{
+    $file_name=$_REQUEST["old_image"];
+}else{
+    checkfileextension();
+}
 
-checkfileextension();
 
 
 

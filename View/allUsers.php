@@ -38,7 +38,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="index.html"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+                    <a href="#"><img src="../Assets/img/logo.png" alt="" title="" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
@@ -56,13 +56,8 @@
     <section class="banner-area" id="home">
         <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-start">
-                <div class="banner-content col-lg-7">
-                    <h6 class="text-white text-uppercase">Now you can feel the Energy</h6>
-                    <h1>
-                        Start your day with <br>
-                        a black Coffee
-                    </h1>
-                </div>
+              
+                
             </div>
         </div>
     </section>
