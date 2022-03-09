@@ -40,7 +40,6 @@ session_start();
 </head>
 
 <body>
-
 	<header id="header" id="home">
 		<div class="header-top">
 			<div class="container">
@@ -98,9 +97,10 @@ session_start();
 		</div>
 	</header><!-- #header -->
 
-
 	<!-- start banner Area -->
 	<section class="banner-area" id="home">
+		<!-- Alert Section -->
+	<!-- End of alert Section -->
 		<div class="container">
 			<div class="row fullscreen d-flex align-items-center justify-content-start">
 				<div class="banner-content col-lg-7">
@@ -115,12 +115,17 @@ session_start();
 						if(empty($_SESSION["authUsername"])){
 							echo "<button type='button'class='primary-btn text-uppercase' data-bs-toggle='modal' data-bs-target='#exampleModal'>Login</button>";
 							if (isset($_GET["errors"]))
-								echo "<h3 class='text-light'> ${_GET['errors']}</h3>";
+								echo "<script>window.addEventListener('load', function(){var element = document.getElementById('alert'); element.classList.add('show');
+											setTimeout(function() {
+											$('#alert').hide()}, 4000);
+											})</script>"; 
 						}
 							else
 							echo "<button type='button'class='primary-btn text-uppercase' data-bs-toggle='modal' data-bs-target='#exampleModal'>Buy now</button>";
 					?>
-					
+					<div id="alert" class="alert alert-dismissible fade mt-3 text-center" role="alert">
+						<strong class="text-white">Holy guacamole! </strong> <p class="text-white d-inline"><?php echo "${_GET['errors']}" ?></p>
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -534,7 +539,7 @@ session_start();
 	<script src="Assets/js/jquery.counterup.min.js"></script>
 	<script src="Assets/js/mail-script.js"></script>
 	<script src="Assets/js/main.js"></script>
-
+	
 
 	 <!-- Modal -->
 	 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
