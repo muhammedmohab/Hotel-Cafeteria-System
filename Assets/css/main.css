@@ -2762,3 +2762,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 .switch-wrap p {
   margin: 0;
 }
+.alertlogin{
+  display: block;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+#alert{
+  background-color: #b68834;
+}
