@@ -64,6 +64,25 @@ class UserQueryModel{
         $stmt->execute();
         return $stmt->rowCount();
     }
-   
+
+    public function checkUser($email, $password){
+        $query = "select * from  user WHERE email = ? and password = ?";
+        $stmt = $this->connection->prepare($query);
+       // $stmt->bindValue(":user_email", $email, PDO::);
+        $stmt->execute([$email , $password]);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
+    public function checkUniqueEmail($email){
+        $query = "select email from  user WHERE email = ?";
+        $stmt = $this->connection->prepare($query);
+       // $stmt->bindValue(":user_email", $email, PDO::);
+        $stmt->execute([$email ]);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
     
 }

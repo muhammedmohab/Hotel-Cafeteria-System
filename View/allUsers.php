@@ -1,3 +1,11 @@
+<?php  session_start();
+    if (!$_SESSION["authRole"]){
+        header('Location: ../index.php');
+    }else if ($_SESSION["authRole"]==0){
+       // header('Location: ../index.html');
+       var_dump("U ARE USER");
+    }
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -64,7 +72,7 @@
     <!-- End banner Area -->
 
     <div class="container-fluid mt-3 text-center" style="height:100vh">
-        <a class='genric-btn success my-3' href='# role='button'>Add User</a>
+        <a class='genric-btn success my-3' href='register.php' role='button'>Add User</a>
         <div class="row">
             <div class="col text-center">
                 <table class="table table-striped text-center">
