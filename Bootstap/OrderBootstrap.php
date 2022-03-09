@@ -2,5 +2,5 @@
 require './Model/DatabaseConnectionModel.php' ;
 
 require 'QueryBuilder.php' ; 
-return new UserQueryModel( DatabaseConnectionModel::connect()) ;
+return new UserQueryModel( Connection::make()) ;
 ?>
