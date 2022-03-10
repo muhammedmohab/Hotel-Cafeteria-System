@@ -6,7 +6,7 @@ class TablesModel{
     private $USER_QUERY = "CREATE TABLE IF NOT exists user(
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(30) NOT NULL,
-        email VARCHAR(30) NOT NULL,
+        email VARCHAR(30) NOT NULL unique,
         password VARCHAR(30) NOT NULL,
         roomNumber VARCHAR(50),
         image varchar(50),
@@ -28,7 +28,7 @@ class TablesModel{
         foreign key(categoryId) references category(id)
         )";
 
-    private $ORDER_QUEREY = "CREATE TABLE IF NOT EXISTS order(
+    private $ORDER_QUEREY = "CREATE TABLE IF NOT EXISTS orders(
         id int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         userId int,
         totalPrice double,
@@ -42,7 +42,7 @@ class TablesModel{
         productId int,
         count int,
         primary key(orderId, productId),
-        foreign key(orderId) references order(id),
+        foreign key(orderId) references orders(id),
         foreign key(productId) references product(id)
     )";
 

@@ -138,7 +138,7 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
                             </div>
                             <div class="col-6">
                                 <select class="form-select" name="roomNo">
-                                    <option value=""></option>
+                                    <!-- <option value=""></option> -->
                                     <?php
 
                                     foreach ($all_rooms as $room) {

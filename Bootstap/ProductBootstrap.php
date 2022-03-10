@@ -1,6 +1,5 @@
 <?PHP
-require './Model/DatabaseConnectionModel.php' ;
-
-require 'QueryBuilder.php' ; 
-return new UserQueryModel( DatabaseConnectionModel::connect()) ;
+require_once '../Model/DatabaseConnectionModel.php' ;
+require_once '../Model/QueryModels/ProductQueryModel.php';
+    return new ProductQueryModel(Connection::make()) ;
 ?>
