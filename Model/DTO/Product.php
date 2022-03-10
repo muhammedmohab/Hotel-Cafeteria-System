@@ -1,5 +1,6 @@
 <?php
 class Product{
+    private $id;
     private $price;
     private $categoryID;
     private $available;
@@ -11,6 +12,12 @@ class Product{
         $this->categoryID = $categoryID;
         $this->image = $image;
         $this->available = $available;
+    }
+    public function setID(int $ID){
+        $this->id = $ID;
+    }
+    public function getID():int{
+        return $this->id;
     }
     public function setName(String $name){
         $this->name = $name;
@@ -27,7 +34,7 @@ class Product{
     public function getImage():String{
         return $this->image;
     }
-    public function setPrice(double $price){
+    public function setPrice(float $price){
         $this->price = $price;
     }
 
@@ -39,11 +46,11 @@ class Product{
         $this->available = $available;
     }
 
-    public function getPrice():double{
+    public function getPrice():float{
         return $this->price;
     }
 
-    public function getcategoryID():int{
+    public function getCategoryID():int{
         return $this->categoryID;
     }
     public function getAvailable():bool{

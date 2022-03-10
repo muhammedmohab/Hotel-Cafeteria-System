@@ -1,5 +1,6 @@
-<?php  session_start();
-    if (!$_SESSION["authRole"]){
+<?php
+    session_start();
+    if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
         header('Location: ../index.php');
     }
 ?>
@@ -37,9 +38,8 @@
 </head>
 
 <body>
-
     <header id="header" id="home">
-       
+
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
@@ -47,7 +47,7 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active"><a href="../index.php">Home</a></li>
+                        <li class="menu-active"><a href="../index.html">Home</a></li>
                         <li><a href="../Controllers/UserController.php">all users</a></li>
                         <li><a href="">Coffee</a></li>
                         <li><a href="">Review</a></li>
@@ -61,27 +61,25 @@
     <section class="banner-area" id="home">
         <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-start">
-              
-                
+
+
             </div>
         </div>
     </section>
     <!-- End banner Area -->
 
-    <div class="container-fluid mt-3 text-center" style="height:100vh">
-        <a class='genric-btn success my-3' href='register.php' role='button'>Add User</a>
+    <div class="container mt-3 text-center" style="height:100vh">
+        <a class='genric-btn primary circle my-3 ' href='#' role=' button'>Add Product</a>
         <div class="row">
             <div class="col text-center">
                 <table class="table table-striped text-center">
                     <thead style="background:#B68834;" class="text-light">
                         <tr>
-                            <th>Id</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Room No</th>
+                            <th>price</th>
                             <th>image</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            <th>Availability</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -89,29 +87,47 @@
                         <?php
 
                         require "../Bootstap/dbuser.php";
-                        $alluser = $dbuser->selectAllUsers();
-                        foreach ($alluser as $key => $value) {
+                        $allProducts = $dbProduct->selectAllProducts();
+                        foreach ($allProducts as $index => $Product) {
                             echo "<tr>";
-                            if($value['email'] == $_SESSION['authEmail'])
-                                continue;
-                            foreach ($value as $k => $val) {
-                                $id = $value["id"];
-                                if ($k == "admin"  || $k == "password") continue;
-                                if ($k == "image") {
-                                    echo "<td><img class='hoverImage'  src='../public/images/profile_images/" .$val . "' width=50px height=50px/></td>";
-                                } else {
-                                    echo "<td>" . $val . "</td>";
+                            $id = $Product["id"];
+                            if($Product['available']==1)
+                               $available='available';
+                            else
+                                $available='not available';
+                            foreach ($Product as $attribute  => $attributeValue) {
+                                if ($attribute == "name" || $attribute == "price" || $attribute == "image") {
+                                    // var_dump($attribute);
+
+                                    if ($attribute == "image" && !empty($attributeValue)) {
+                                        echo "<td>
+                                            <img class='hoverImage' src='../public/images/products_images/". $attributeValue . "' width=30px height=30px/>
+                                        </td>";
+                                    } else if ($attribute == "image" && empty($attributeValue)) {
+                                        echo "<td>
+                                        <img class='hoverImage' src='../public/images/products_images/notFound.png' width=50px height=50px/>
+                                    </td>";
+                                    } else
+                                        echo "<td>
+                                            $attributeValue
+                                        </td>";
                                 }
                             }
                             echo "
-                           <td><a class='genric-btn info small' href='updateUser.php?id=$id' role='button'>Update</a>
-                           </td>
-                           <td><a class='genric-btn danger small' href='../Controllers/DeleteController.php?id=$id' role='button'>Delete</a>
-                           </td>
-                           </tr>";
+                                <td>
+                                    $available
+                                </td>
+                               <td>
+                                    <a class='genric-btn info circle small py-1' href='editProduct.php?id=$id' role='button'>Update</a>
+                                    <form class='d-inline mx-2' action='../Controllers/ProductController.php' method='post' >
+                                        <input type='hidden' name='validationType' value='destroyProduct'>
+                                        <input type='hidden' value='$id' name='productId'>
+                                        <input class='genric-btn danger circle small py-1' type='submit'value='Delete'>
+                                    </form>
+                               </td>
+                            </tr>";
                         }
                         ?>
-
                     </tbody>
                 </table>
 
