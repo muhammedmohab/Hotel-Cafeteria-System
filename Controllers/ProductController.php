@@ -42,7 +42,7 @@ function validateImage():bool{
     if(empty($error))
         return true;
     else
-        header("location: ../View/editProduct.php?". $error);
+        header("location: ../View/editProduct.php?". $error."&id={$_REQUEST['id']}");
     return false;
 }
 
@@ -55,17 +55,17 @@ function validateProduct(ProductQueryModel $dbProduct)
             if (empty($value))
                 $errors = $errors . "&" . $index . "Error=$index is required";
             if ($index == 'categoryId' && empty($dbProduct->checkCategory(intval($_REQUEST['categoryId']))))
-            $errors = $errors . "&" . $index . "Error=$index not found";
+            $errors = $errors . "&" . $index . "Error=this value not found";
         }
         if (empty($errors)) {
             $data = $dbProduct->checkUniqueName( intval($_POST['productId']) , $_POST["name"]);
             if (empty($data)) {
                 return true;
             }else{
-                header("location: ../View/editProduct.php?&this product already exist");
+                header("location: ../View/editProduct.php?&productName=this product already exist&id={$_REQUEST['productId']}");
             }
         } else {
-            header("location: ../View/editProduct.php?& ". $errors);
+            header("location: ../View/editProduct.php?& ". $errors."&id={$_REQUEST['productId']}");
         }
     }
     return false;
@@ -76,9 +76,11 @@ function updateProduct(ProductQueryModel $dbProduct)
     $imageName=$_REQUEST['oldImage'];
     if(!empty($_FILES['image']['name'])&& $_REQUEST['productId'].$_FILES["image"]['name']!=$_REQUEST["oldImage"]){
         $validateImage=validateImage();
-        $imageName = $_REQUEST["productId"].$_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'], 
-        "../public/images/products_images/$imageName");
+        if($validateImage){
+            $imageName = $_REQUEST["productId"].$_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], 
+            "../public/images/products_images/$imageName");
+        }
     }
     if (validateProduct($dbProduct)&&$validateImage) {
         $available=true;
@@ -97,9 +99,9 @@ function updateProduct(ProductQueryModel $dbProduct)
 }
 function deleteProduct($dbProduct)
 {
-    $errors = "";
+    $error = "";
     if (!$dbProduct->deleteProduct(intval($_REQUEST["productId"]))) {
-        $errors = "failed to delete";
+        $error = "failed to delete";
     }
-    header("location: ../View/allProducts.php" . "?&errors=$errors");
+    header("location: ../View/allProducts.php" . "?&errors=$error");
 }

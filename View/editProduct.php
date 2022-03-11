@@ -1,11 +1,16 @@
 <?php
 session_start();
-if (!$_SESSION["authRole"] || $_SESSION["authRole"] == 0) {
+if (empty($_SESSION["authRole"])) {
     header('Location: ../index.php');
 }
 require "../Bootstap/dbuser.php";
+// var_dump(intval($_REQUEST["id"]));
+// return;
 $Product = $dbProduct->selectSpecificProduct(intval($_REQUEST["id"]))[0];
 $Categories = $dbProduct->selectAllCategories();
+$count=1;
+if(empty($Product) || empty($Categories))
+    header("location: ../index.php");
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -47,41 +52,22 @@ $Categories = $dbProduct->selectAllCategories();
 
 <body>
     <header id="header" id="home">
-        <div class="header-top">
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col-lg-8 col-sm-4 col-8 header-top-right no-padding">
-                        <ul>
-                            <li>
-                                Mon-Fri: 8am to 2pm
-                            </li>
-                            <li>
-                                Sat-Sun: 11am to 4pm
-                            </li>
-                            <li>
-                                <a href="tel:(012) 6985 236 7512">(012) 6985 236 7512</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="../index.html"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+                    <a href="../index.php"><img src="../Assets/img/logo.png" alt="cafe logo" title="cafe logo" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active"><a href="#home">Home</a></li>
+                        <li class="menu-active"><a href="../index.php">Home</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#coffee">Coffee</a></li>
+                        <li><a href="../View/allProducts.php">Coffee</a></li>
                         <li><a href="#review">Review</a></li>
                         <li><a href="#blog">Blog</a></li>
-                        <li class="menu-has-children"><a href="">Pages</a>
+                        <li class="menu-has-children"><a class="mousePointer" style="color:white ">Pages</a> 
                             <ul>
-                                <li><a class="text-center" href="View/generic.html">Generic</a></li>
-                                <li><a class="text-center" href="View/elements.html">Elements</a></li>
+                                <li><a class="text-center" href="generic.html">Generic</a></li>
+                                <li><a class="text-center" href="elements.html">Elements</a></li>
                                 <?php
                                 if (isset($_SESSION["authRole"])) {
                                     if ($_SESSION["authRole"] == 1) {
@@ -112,9 +98,9 @@ $Categories = $dbProduct->selectAllCategories();
     <!-- End banner Area -->
 
 
-    <div class="container">
+    <div class="col-10 m-auto">
         <div class="row">
-            <div class="col-12 ">
+            <div class="col-8">
                 <h2 class="mb-5 mt-3" style="color:#543804;"> Update Product </h2>
                 <form method="post" action="../Controllers/ProductController.php" enctype="multipart/form-data">
                     <input required name="productId" value="<?php echo $Product["id"]; ?>" hidden>
@@ -127,6 +113,13 @@ $Categories = $dbProduct->selectAllCategories();
                             <div class="col-6">
                                 <input required type="text" class="form-control" id="productName" name="name" value="<?php echo $Product["name"]; ?>" />
                             </div>
+                            <div class="col-auto">
+                                <span id="passwordHelpInline" class="form-text" style="color: red">
+                                    <?php if (!empty($_REQUEST["nameError"])) {
+                                        echo $_REQUEST["nameError"];
+                                    } ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-2 form-group">
@@ -137,7 +130,13 @@ $Categories = $dbProduct->selectAllCategories();
                             <div class="col-6">
                                 <input required type="text"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
                             </div>
-
+                            <div class="col-auto">
+                                <span class="form-text" style="color: red">
+                                    <?php if (!empty($_REQUEST["productPirceError"])) {
+                                        echo $_REQUEST["productPirceError"];
+                                    } ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="mb-2 form-group">
@@ -178,6 +177,13 @@ $Categories = $dbProduct->selectAllCategories();
                                     ?>
                                 </select>
                             </div>
+                            <div class="col-auto">
+                                <span class="form-text" style="color: red">
+                                    <?php if (!empty($_REQUEST["categoryIdError"])) {
+                                        echo $_REQUEST["categoryIdError"];
+                                    } ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -190,7 +196,7 @@ $Categories = $dbProduct->selectAllCategories();
                             <div class="col-6">
                                 <input class="form-control form-control-lg" type="file" name="image">
                                 <span class="form-text" style="color: black">
-                                    <?php echo $Product["image"]; ?>
+                                    <?php echo substr_replace($Product['image'], '', 0, 1); ?>
                                 </span>
                             </div>
                             <div class="col-auto">
@@ -198,10 +204,17 @@ $Categories = $dbProduct->selectAllCategories();
                                     
                                 </span>
                             </div>
+                            <div class="col-auto">
+                                <span class="form-text" style="color: red">
+                                    <?php if (!empty($_REQUEST["imageError"])) {
+                                        echo $_REQUEST["imageError"];
+                                    } ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="mb-2 mt-5 form-group">
-                        <div class="row g-3 align-items-center">
+                    <div class="my-5 w-50 mx-auto  form-group">
+                        <div class="row align-items-center m-auto">
                             <div class="col-auto mr-4">
                                 <button type="submit" class="btn btn-warning  mb-4">Confirm</button>
                             </div>
@@ -210,8 +223,11 @@ $Categories = $dbProduct->selectAllCategories();
                             </div>
                         </div>
                     </div>
-
                 </form>
+            </div>
+            <div class="col-3 align-items-center ">
+                <h2 class="text-heading text-center mb-5 mt-3" style="color: #543804;">Poduct Image</h2>
+                <img class="subject-image" width="100%" src="<?php echo "../public/images/products_images/".$Product["image"]; ?>" alt="">
             </div>
         </div>
     </div>
