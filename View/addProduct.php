@@ -4,12 +4,9 @@ if (empty($_SESSION["authRole"])) {
     header('Location: ../index.php');
 }
 require "../Bootstap/dbuser.php";
-// var_dump(intval($_REQUEST["id"]));
-// return;
-$Product = $dbProduct->selectSpecificProduct(intval($_REQUEST["id"]))[0];
 $Categories = $dbProduct->selectAllCategories();
-$count=1;
-if(empty($Product) || empty($Categories))
+// $count=1;
+if(empty($Categories))
     header("location: ../index.php");
 ?>
 <!DOCTYPE html>
@@ -101,17 +98,16 @@ if(empty($Product) || empty($Categories))
     <div class="col-10 m-auto">
         <div class="row">
             <div class="col-8">
-                <h2 class="mb-5 mt-3" style="color:#543804;"> Update Product </h2>
+                <h2 class="mb-5 mt-3" style="color:#543804;"> add Product </h2>
                 <form method="post" action="../Controllers/ProductController.php" enctype="multipart/form-data">
-                    <input required name="productId" value="<?php echo $Product["id"]; ?>" hidden>
-                    <input required type='hidden' name='validationType' value='updateProduct'>
+                    <input required type='hidden' name='validationType' value='storeProduct'>
                     <div class="mb-2 form-group">
                         <div class="row g-3 align-items-center">
                             <div class="col-2">
                                 <label for="productName" class="form-label">Name :</label>
                             </div>
                             <div class="col-6">
-                                <input required type="text" class="form-control" id="productName" name="name" value="<?php echo $Product["name"]; ?>" />
+                                <input required type="text" class="form-control" id="productName" name="name" placeholder="Product Name" ?>
                             </div>
                             <div class="col-auto">
                                 <span id="passwordHelpInline" class="form-text" style="color: red">
@@ -128,7 +124,7 @@ if(empty($Product) || empty($Categories))
                                 <label for="productPrice" class="form-label">Price</label>
                             </div>
                             <div class="col-6">
-                                <input required type="text"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
+                                <input required placeholder="Product Price" type="text"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -139,15 +135,10 @@ if(empty($Product) || empty($Categories))
                             </div>
                         </div>
                     </div>
-                    <div class="mb-2 form-group d-flex align-items-center justify-content-between border" style="width: 66%;">
+                    <div class="mb-2 form-group d-flex align-items-center justify-content-between " style="width: 65.5%;">
                         <label for="switch-wrap">Availability</label>
                         <div class="primary-switch" >
-                            <?php 
-                                if($Product['available']==0)
-                                    echo '<input name="available" type="checkbox" id="switch-wrap">';
-                                else
-                                    echo '<input checked name="available" type="checkbox" id="switch-wrap" value="true">';
-                            ?>
+                                <input checked name="available" type="checkbox" id="switch-wrap" value="true">
                             <!-- not available -->
                             <label for="switch-wrap" ></label>
                             <!-- available -->
@@ -184,12 +175,8 @@ if(empty($Product) || empty($Categories))
                             <div class="col-2">
                                 <label class="form-label">Select Image</label>
                             </div>
-                            <input name="oldImage" value="<?php echo $Product["image"]; ?>" hidden>
                             <div class="col-6">
                                 <input class="form-control form-control-lg" type="file" name="image">
-                                <span class="form-text" style="color: black">
-                                    <?php echo substr_replace($Product['image'], '', 0, 1); ?>
-                                </span>
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -211,10 +198,6 @@ if(empty($Product) || empty($Categories))
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="col-3 align-items-center ">
-                <h2 class="text-heading text-center mb-5 mt-3" style="color: #543804;">Poduct Image</h2>
-                <img class="subject-image" width="100%" src="<?php echo "../public/images/products_images/".$Product["image"]; ?>" alt="">
             </div>
         </div>
     </div>

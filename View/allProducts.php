@@ -87,7 +87,7 @@
     <!-- End banner Area -->
 
     <div class="container mt-3 text-center" style="height:100vh">
-        <a class='genric-btn primary circle my-3 ' href='#' role=' button'>Add Product</a>
+        <a class='genric-btn primary circle my-3 ' href='addProduct.php' role=' button'>Add Product</a>
         <div class="row">
             <div class="col text-center">
                 <table class="table table-striped text-center">
