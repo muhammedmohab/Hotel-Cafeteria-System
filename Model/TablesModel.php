@@ -30,9 +30,9 @@ class TablesModel{
 
     private $ORDER_QUEREY = "CREATE TABLE IF NOT EXISTS orders(
         id int(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        userId int,
-        totalPrice double,
-        status varchar(50),
+        userId int not null,
+        totalPrice double not null,
+        status varchar(50) not null,
         foreign key(userId) references user(id)
     )";
 

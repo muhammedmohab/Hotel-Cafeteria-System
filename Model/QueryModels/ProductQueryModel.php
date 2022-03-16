@@ -22,12 +22,27 @@ class ProductQueryModel{
         return $result;
     }
     public function insertProduct(Product $product):bool{
-       $query="Insert INTO user (name, price, categoryId, image, available)Values(?,?,?,?,?)";
+       $query="Insert INTO product (name, price, categoryId, image, available)Values(?,?,?,?,?)";
        $stmt= $this->connection->prepare($query);
        $result=$stmt->execute([$product->getName(),$product->getPrice(),$product->getCategoryID()
        ,$product->getImage(),$product->getAvailable()]);
        return $result;
     }
+    public function updateProductImage(){
+        $query="update product set image=? where id = ?";
+        $stmt= $this->connection->prepare($query);
+        $lastProduct=$this->getlastProduct();
+        $result=$stmt->execute([$lastProduct['id'].$lastProduct['image'] , $lastProduct['id']]);
+        return $result;
+    }
+    public function getlastProduct(){
+        $query="select * from product order by id desc limit 1";
+        $stmt= $this->connection->prepare($query);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch();
+        return $result;
+     }
     public function updateProduct(Product $product):bool{
         $query = "UPDATE product SET name =?, price =?, categoryId =?,image =?, available =? WHERE id=?";
         $stmt = $this->connection->prepare($query);

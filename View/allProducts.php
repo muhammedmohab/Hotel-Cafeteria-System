@@ -40,18 +40,36 @@
 <body>
     <header id="header" id="home">
 
-        <div class="container">
+    <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="#"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+                    <a href="../index.php"><img src="../Assets/img/logo.png" alt="cafe logo" title="cafe logo" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active"><a href="../index.html">Home</a></li>
-                        <li><a href="../Controllers/UserController.php">all users</a></li>
-                        <li><a href="">Coffee</a></li>
-                        <li><a href="">Review</a></li>
-                        <li><a href="">Blog</a></li>
+                        <li class="menu-active"><a href="index.php">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="../View/allProducts.php">Coffee</a></li>
+                        <li><a href="#review">Review</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li class="menu-has-children"><a class="mousePointer" style="color:white ">Pages</a> 
+                            <ul>
+                                <li><a class="text-center" href="View/generic.html">Generic</a></li>
+                                <li><a class="text-center" href="View/elements.html">Elements</a></li>
+                                <?php
+                                if (isset($_SESSION["authRole"])) {
+                                    if ($_SESSION["authRole"] == 1) {
+                                        echo '<li><a class="text-center" href="../View/allUsers.php">All Users</a></li>';
+                                    }
+                                    echo '<li><form action="Controllers/ValidationController.php" method="post">
+										<input type="hidden" name="validationType" value="Logout">
+										<input class="btn btn-block mb-4 genric-btn primary radius" type="submit"  value="Log out">
+										</form></li>';
+                                }
+                                ?>
+
+                            </ul>
+                        </li>
                     </ul>
                 </nav><!-- #nav-menu-container -->
             </div>
@@ -69,7 +87,7 @@
     <!-- End banner Area -->
 
     <div class="container mt-3 text-center" style="height:100vh">
-        <a class='genric-btn primary circle my-3 ' href='#' role=' button'>Add Product</a>
+        <a class='genric-btn primary circle my-3 ' href='addProduct.php' role=' button'>Add Product</a>
         <div class="row">
             <div class="col text-center">
                 <table class="table table-striped text-center">

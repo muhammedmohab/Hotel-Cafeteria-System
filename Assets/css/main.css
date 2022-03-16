@@ -2780,3 +2780,10 @@ body.mobile-nav-active #mobile-nav-toggle {
   transform: scale(3);
   transition: transform 2s ease-in-out;
 }
+.mousePointer:hover{
+  cursor: pointer;
+}
+.subject-image{
+  max-width: 20vw;
+  max-height: 100vh ;
+}
