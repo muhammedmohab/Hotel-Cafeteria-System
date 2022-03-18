@@ -56,6 +56,17 @@ class OrderQueryModel{
         $result = $stmt->fetchAll();
         return $result;
     }
+    public function getProductsOfOrder($order_id)
+    {
+        $products = array();
+        $sql = "SELECT p.name,p.image, p.price, op.count FROM product p, orderproduct op WHERE p.id = op.productId AND op.orderId = :order_id;";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(":order_id", $order_id);
+        $stmt->execute();
+        $products = $stmt->fetchAll();
+
+        return $products; 
+    }
     // public function checkUniqueName(int $id , string $orderName){
     //     $query = "select name from product WHERE name = ? and id != ?";
     //     $stmt = $this->connection->prepare($query);
