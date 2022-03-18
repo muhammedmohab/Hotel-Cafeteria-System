@@ -29,6 +29,7 @@ function  validationLogin($dbuser)
             $_SESSION["authEmail"] =  $data[0]["email"];
             $_SESSION["authImage"] =  $data[0]["image"];
             $_SESSION["authRole"] =  $data[0]["admin"];
+            $_SESSION["authId"] = $data[0]["id"];
             if ($data[0]["admin"] == 1) {
                 header('Location: ../View/allUsers.php');
             } else {
