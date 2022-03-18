@@ -224,45 +224,16 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
       </div>
     </div>
   </div>
-  <!-- Modal VIEW-->
-  <div class="modal fade" id="viewModel" tabindex="-1" aria-labelledby="viewModelLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewModelLabel">View Order</h5>
-
-          <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-
-        </div>
-        <div class="modal-body">
-          <!-- contain the id of the order -->
-          <input type="hidden" class="orderId" name="orderId" value="id" > 
-          <div class="container">
-            <h3>Order</h3>
-            <?php
-              
-            ?>
-            <!-- write order details here -->
-          </div>
-          <button type="button" class="btn btn-block mb-2 genric-btn danger radius" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-        </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
   </div>
   <!-- Script to show the order ID -->
   <script>
   $('#updateModal').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id') 
-    $(this).find('.modal-body input').first().val(orderId)
+    let orderId = $(event.relatedTarget).data('id');
+    $(this).find('.modal-body input').first().val(orderId);
   })
   $('#viewModel').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id') 
-    $(this).find('.modal-body input').first().val(orderId)
+    let orderId = $(event.relatedTarget).data('id');
+    $(this).find('.modal-body input').first().val(orderId);
   })
 </script>
 </body>
