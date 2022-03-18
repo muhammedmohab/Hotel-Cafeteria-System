@@ -67,27 +67,12 @@ class OrderQueryModel{
 
         return $products; 
     }
-    // public function checkUniqueName(int $id , string $orderName){
-    //     $query = "select name from product WHERE name = ? and id != ?";
-    //     $stmt = $this->connection->prepare($query);
-    //     $stmt->execute([$productName,$id]);
-    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     $result = $stmt->fetchAll();
-    //     return $result;
-    // }
-    // public function checkCategory(int $categoryId){
-    //     $query = "select id from category WHERE id = ?";
-    //     $stmt = $this->connection->prepare($query);
-    //     $stmt->execute([$categoryId]);
-    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     $result = $stmt->fetchAll();
-    //     return $result;
-    // }
-    // public function selectAllCategories(){
-    //     $stmt = $this->connection->prepare("SELECT * FROM category");
-    //     $stmt->execute();
-    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     $result = $stmt->fetchAll();
-    //     return $result;
-    // }
+    public function selectUserOrders($id){
+        $stmt = $this->connection->prepare("SELECT * FROM orders WHERE userId =:userId");
+        $stmt->bindParam(":userId",$id, PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }

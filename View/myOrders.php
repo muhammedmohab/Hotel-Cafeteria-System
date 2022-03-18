@@ -1,8 +1,7 @@
 <?php
     session_start();
-    if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
-        header('Location: ../index.php');
-    }
+    require "../Bootstap/dbuser.php";
+    $userId = $_SESSION["authId"];
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -23,7 +22,7 @@
   <!-- Site Title -->
   <title>Coffee</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
 			CSS
 			============================================= -->
@@ -82,68 +81,35 @@
         <table class="table table-striped text-center" id="example">
           <thead style="background:#B68834;" class="text-light">
             <tr>
-              <th>Id</th>
-              <th>Requested By</th>
               <th>Total</th>
               <th>Status</th>
-              <th>Created date</th>
-              <th>Finished date</th>
+              <th>Order Date</th>
               <th colspan="3">Actions</th>
             </tr>
           </thead>
 
           <tbody class="bg-light">
             <?php
-            require "../Bootstap/dbuser.php";
-            $allOrders = $dbOrder->selectAllOrders();
-
-            foreach ($allOrders as $index => $Order) {
+            $allUserOrders = $dbOrder->selectUserOrders($userId);
+            foreach ($allUserOrders as $index => $Order) {
               $id = $Order["id"];
-              $userId = $Order["userId"];
-              $userRequested = $dbOrder->userRequested($userId); //name of the user requested
-              $userName = $userRequested[0]["name"];
               echo '<tr id="Order_' . $id . '"  class="products py-0 px-2"  
-               orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer">';              
-             
-              // $totalPrice = $Order["totalPrice"];
-              // $status = $Order["status"];
-              // $createdAt = $Order["created_at"];
-              // if($status=="Finished") $finishedAt = $Order["finished_at"];
-
+                orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer">';  
               foreach ($Order as $attribute => $attributeValue) {
-                // var_dump($attribute);
-                // return 0;
-                if ($attribute == "id" || $attribute == "userId" || $attribute == "totalPrice" || $attribute == "status" || $attribute == "created_at" || $attribute == "finshed_at") {
-                  if ($attribute == "id" && !empty($attributeValue)) {
-                    echo "<td>${attributeValue}</td>";
-                  }
-                  if ($attribute == "userId" && !empty($attributeValue)) {
-                    echo "<td>${userName}</td>";
-                  }
-                  if ($attribute == "totalPrice" && !empty($attributeValue)) {
+                if ($attribute == "created_at" || $attribute == "status" || $attribute == "totalPrice") {
+                  if ($attribute == "created_at" && !empty($attributeValue)) {
                     echo "<td>${attributeValue}</td>";
                   }
                   if ($attribute == "status" && !empty($attributeValue)) {
                     echo "<td>${attributeValue}</td>";
                   }
-                  if ($attribute == "created_at" && !empty($attributeValue)) {
-                    echo "<td>${attributeValue}</td>";
-                  }
-                  if ($attribute == "finshed_at" && empty($attributeValue)) {
-                    echo "<td class='text-danger'>--</td>";
-                  }
-                  if ($attribute == "finshed_at" && !empty($attributeValue)) {
+                  if ($attribute == "totalPrice" && !empty($attributeValue)) {
                     echo "<td>${attributeValue}</td>";
                   }
                 }
               }
               echo "
                                <td>";
-              if ($Order['status'] != 'Finished' || empty($Order['finshed_at'])) {
-                echo "
-                      <div class='d-inline mr-1'>
-                      <a class='genric-btn info circle small py-1' href='#updateModal' role='button' data-bs-toggle='modal' data-bs-target='#updateModal' data-id='$id'>Update</a></div>";
-              }
               echo "<div class='d-inline'><a class='genric-btn primary circle small py-1' href='#viewModel' role='button' data-bs-toggle='modal' data-bs-target='#viewModel' data-id='$id'>View</a></div>";
               if ($Order['status'] == 'In-Progress') {
                 echo "
@@ -187,23 +153,27 @@
 
 
 
-    <script src="../Assets/js/vendor/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="../Assets/js/vendor/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-    <script src="../Assets/js/easing.min.js"></script>
-    <script src="../Assets/js/hoverIntent.js"></script>
-    <script src="../Assets/js/superfish.min.js"></script>
-    <script src="../Assets/js/jquery.ajaxchimp.min.js"></script>
-    <script src="../Assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="../Assets/js/owl.carousel.min.js"></script>
-    <script src="../Assets/js/jquery.sticky.js"></script>
-    <script src="../Assets/js/jquery.nice-select.min.js"></script>
-    <script src="../Assets/js/parallax.min.js"></script>
-    <script src="../Assets/js/waypoints.min.js"></script>
-    <script src="../Assets/js/jquery.counterup.min.js"></script>
-    <script src="../Assets/js/mail-script.js"></script>
-    <script src="../Assets/js/main.js"></script>
+  <script src="Scripts/jquery-3.3.1.min.js"></script>
+  <script src="../Assets/js/jquery-ui.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+  <script src="../Assets/js/filterbydate.js"></script>
+  <script src="../Assets/js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="../Assets/js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+  <script src="../Assets/js/easing.min.js"></script>
+  <script src="../Assets/js/hoverIntent.js"></script>
+  <script src="../Assets/js/superfish.min.js"></script>
+  <script src="../Assets/js/jquery.ajaxchimp.min.js"></script>
+  <script src="../Assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="../Assets/js/owl.carousel.min.js"></script>
+  <script src="../Assets/js/jquery.sticky.js"></script>
+  <script src="../Assets/js/jquery.nice-select.min.js"></script>
+  <script src="../Assets/js/parallax.min.js"></script>
+  <script src="../Assets/js/waypoints.min.js"></script>
+  <script src="../Assets/js/jquery.counterup.min.js"></script>
+  <script src="../Assets/js/mail-script.js"></script>
+  <script src="../Assets/js/main.js"></script>
   <!-- Modal UPDATE-->
   <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -260,7 +230,7 @@
   // get orders of product 
 
 $(".products").click(function() {
-  let id_name = $(this).attr("val");
+let id_name = $(this).attr("val");
 $(this).next().toggleClass('hide');
   $.ajax('../Controllers/productsOfOrderController.php', {
     type: 'POST', // http method
