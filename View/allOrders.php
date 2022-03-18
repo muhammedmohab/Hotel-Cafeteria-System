@@ -81,7 +81,7 @@
     <div class="row">
       <div class="col text-center">
         <div class="container mb-3">
-        
+
         </div>
         <table class="table table-striped text-center" id="example">
           <thead style="background:#B68834;" class="text-light">
@@ -226,7 +226,7 @@
         </div>
         <div class="modal-body">
           <form action="../Controllers/OrderController.php" method="post">
-            <input type="hidden" class="orderId" name="orderId" value="id" >
+            <input type="hidden" class="orderId" name="orderId" value="id">
             <input type="hidden" name="validationType" value="updateOrderStatus">
 
             <div class="">
@@ -283,7 +283,6 @@ $(this).next().toggleClass('hide');
   });
 });
 
-</script>
 </body>
 
 </html>
