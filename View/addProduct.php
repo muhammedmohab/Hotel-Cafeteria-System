@@ -6,7 +6,7 @@ if (empty($_SESSION["authRole"])) {
 require "../Bootstap/dbuser.php";
 $Categories = $dbProduct->selectAllCategories();
 // $count=1;
-if(empty($Categories))
+if (empty($Categories))
     header("location: ../index.php");
 ?>
 <!DOCTYPE html>
@@ -40,6 +40,9 @@ if(empty($Categories))
     <link rel="stylesheet" href="../Assets/css/animate.min.css">
     <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
     <link rel="stylesheet" href="../Assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <style>
         label {
             font-weight: bold;
@@ -61,7 +64,7 @@ if(empty($Categories))
                         <li><a href="../View/allProducts.php">Coffee</a></li>
                         <li><a href="#review">Review</a></li>
                         <li><a href="#blog">Blog</a></li>
-                        <li class="menu-has-children"><a class="mousePointer" style="color:white ">Pages</a> 
+                        <li class="menu-has-children"><a class="mousePointer" style="color:white ">Pages</a>
                             <ul>
                                 <li><a class="text-center" href="generic.html">Generic</a></li>
                                 <li><a class="text-center" href="elements.html">Elements</a></li>
@@ -93,9 +96,18 @@ if(empty($Categories))
         </div>
     </section>
     <!-- End banner Area -->
-
-
     <div class="col-10 m-auto">
+        <div class="col-auto" id="CategoryName">
+            <span class="form-text" style="color: red">
+                <?php if (!empty($_REQUEST["CategoryNameError"])) {
+                    echo $_REQUEST["CategoryNameError"];
+                    echo "<script>window.addEventListener('load', function(){
+                            setTimeout(function() {
+                            $('#CategoryName').hide()}, 5000);
+                            })</script>";
+                } ?>
+            </span>
+        </div>
         <div class="row">
             <div class="col-8">
                 <h2 class="mb-5 mt-3" style="color:#543804;"> add Product </h2>
@@ -124,7 +136,7 @@ if(empty($Categories))
                                 <label for="productPrice" class="form-label">Price</label>
                             </div>
                             <div class="col-6">
-                                <input required placeholder="Product Price" type="text"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
+                                <input required placeholder="Product Price" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -137,10 +149,10 @@ if(empty($Categories))
                     </div>
                     <div class="mb-2 form-group d-flex align-items-center justify-content-between " style="width: 65.5%;">
                         <label for="switch-wrap">Availability</label>
-                        <div class="primary-switch" >
-                                <input checked name="available" type="checkbox" id="switch-wrap" value="true">
+                        <div class="primary-switch">
+                            <input checked name="available" type="checkbox" id="switch-wrap" value="true">
                             <!-- not available -->
-                            <label for="switch-wrap" ></label>
+                            <label for="switch-wrap"></label>
                             <!-- available -->
                         </div>
                     </div>
@@ -153,12 +165,15 @@ if(empty($Categories))
                                 <select required class="form-select" name="categoryId">
                                     <?php
                                     foreach ($Categories as $category) {
-                                        echo '<option value="'.$category["id"].'"'
+                                        echo '<option value="' . $category["id"] . '"'
                                             . (($Product["categoryId"] == $category["id"]) ? "selected" : "")
                                             . '>' . $category["name"] . '</option>';
                                     }
                                     ?>
                                 </select>
+                            </div>
+                            <div class="col-auto">
+                                <a class='genric-btn info circle small py-1' href='#addModal' role='button' data-bs-toggle='modal' data-bs-target='#addModal'>Add Category</a>
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -201,10 +216,38 @@ if(empty($Categories))
             </div>
         </div>
     </div>
+    <!-- Modal UPDATE-->
+    <div class="modal fade" id="addModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add Category</h5>
 
+                    <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
+                </div>
+                <div class="modal-body">
+                    <form action="../Controllers/CategoryController.php" method="post">
+                        <input type="hidden" name="validationType" value="storeCategory">
+                        <!-- <div class="">
+                            <label class="form-label"></label>
+                        </div> -->
+                        <div class="mb-4">
+                            <input required type="text" class="form-control form-control-lg" placeholder="Category Name" name="CategoryName">
+                        </div>
+                        <!-- Submit button -->
+                        <div class="d-flex justify-content-center ">
+                            <button type="button" class="btn btn-md mb-2 mx-1 genric-btn danger circle" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                            <button type="submit" class="btn btn-md mb-2 mx-1 genric-btn success circle">Add Category</button>
+                        </div>
 
-
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../Assets/js/vendor/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="../Assets/js/vendor/bootstrap.min.js"></script>

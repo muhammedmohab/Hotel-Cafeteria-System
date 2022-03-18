@@ -75,7 +75,7 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
     <div class="row">
       <div class="col text-center">
         <div class="container mb-3">
-        
+
         </div>
         <table class="table table-striped text-center" id="example">
           <thead style="background:#B68834;" class="text-light">
@@ -200,7 +200,7 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
         </div>
         <div class="modal-body">
           <form action="../Controllers/OrderController.php" method="post">
-            <input type="hidden" class="orderId" name="orderId" value="id" >
+            <input type="hidden" class="orderId" name="orderId" value="id">
             <input type="hidden" name="validationType" value="updateOrderStatus">
 
             <div class="">
@@ -227,15 +227,15 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
   </div>
   <!-- Script to show the order ID -->
   <script>
-  $('#updateModal').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id');
-    $(this).find('.modal-body input').first().val(orderId);
-  })
-  $('#viewModel').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id');
-    $(this).find('.modal-body input').first().val(orderId);
-  })
-</script>
+    $('#updateModal').on('show.bs.modal', function(event) {
+      let orderId = $(event.relatedTarget).data('id');
+      $(this).find('.modal-body input').first().val(orderId);
+    })
+    $('#viewModel').on('show.bs.modal', function(event) {
+      let orderId = $(event.relatedTarget).data('id');
+      $(this).find('.modal-body input').first().val(orderId);
+    })
+  </script>
 </body>
 
 </html>
