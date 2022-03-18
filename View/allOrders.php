@@ -1,8 +1,8 @@
 <?php
-session_start();
-if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
-  header('Location: ../index.php');
-}
+    session_start();
+    if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
+        header('Location: ../index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -38,6 +38,12 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+   .hide {
+            display: none;
+        }
+  </style>
 </head>
 
 <body>
@@ -96,11 +102,13 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
             $allOrders = $dbOrder->selectAllOrders();
 
             foreach ($allOrders as $index => $Order) {
-              echo "<tr>";
               $id = $Order["id"];
               $userId = $Order["userId"];
               $userRequested = $dbOrder->userRequested($userId); //name of the user requested
               $userName = $userRequested[0]["name"];
+              echo '<tr id="Order_' . $id . '"  class="products py-0 px-2"  
+               orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer">';              
+             
               // $totalPrice = $Order["totalPrice"];
               // $status = $Order["status"];
               // $createdAt = $Order["created_at"];
@@ -152,6 +160,24 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
               "
                                
               </tr>";
+              echo '
+              <tr id="order'.$id.'" class="hide " >
+              <td colspan="7">
+              <div class="accordion-body">
+              <div class="container">
+                <div class="row row1">
+    
+                </div>
+                <div class="row mt-2 card">
+                <h5 class="text-center text-primary p-3">Total Price : <span style="color:#B68834;">' . $Order["totalPrice"] . ' LE</span></h5>
+              </div>
+                </div>
+              </div>
+              </td>
+              </tr>
+             
+              
+              ';
             }
             ?>
           </tbody>
@@ -225,6 +251,9 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
     </div>
   </div>
   </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <!-- Script to show the order ID -->
   <script>
   $('#updateModal').on('show.bs.modal', function (event) {
@@ -235,6 +264,25 @@ if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
     let orderId = $(event.relatedTarget).data('id');
     $(this).find('.modal-body input').first().val(orderId);
   })
+
+  // get orders of product 
+
+$(".products").click(function() {
+  let id_name = $(this).attr("val");
+$(this).next().toggleClass('hide');
+  $.ajax('../Controllers/productsOfOrderController.php', {
+    type: 'POST', // http method
+    data: {
+      order_id: $(this).attr("orderid")
+    }, // data to submit
+    success: function(data, status, xhr) {
+      console.log(data);
+      $("#" + id_name + ' .accordion-body .container .row1').html(data);
+    }
+
+  });
+});
+
 </script>
 </body>
 
