@@ -66,13 +66,13 @@ function validateProduct(ProductQueryModel $dbProduct)
             if (empty($data)) {
                 return true;
             } else {
-                echo "error ya abo 3mo";
-                return;
-                // header("location: ../View/editProduct.php?&productName=this product already exist&id={$_REQUEST['productId']}");
+                // echo "error ya abo 3mo";
+                // return;
+                header("location: ../View/editProduct.php?&productName=this product already exist&id={$_REQUEST['productId']}");
             }
         } else {
-            echo "error y abo 3mo";
-            // header("location: ../View/editProduct.php?& ". $errors."&id={$_REQUEST['productId']}");
+            // echo "error y abo 3mo";
+            header("location: ../View/editProduct.php?& ". $errors."&id={$_REQUEST['productId']}");
         }
     }
     return false;
