@@ -79,9 +79,32 @@
         <div class="container mb-3">
 
         </div>
-        <table class="table table-striped text-center" id="example">
+        <form id="theForm">
+        <div class="row justify-content-center  d-flex mb-3">
+            
+            <div class="col ">
+                <div class="input-group">
+                    <input type="date" id="myInput1" class="form-control rounded" placeholder="Search For User By Name" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <input type="date" id="myInput2"  class="form-control rounded" placeholder="Search For User By Name" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+            <div class="col">
+            <button type="button" class="genric-btn primary search" onclick="myFunction()">search</button>
+            <button type="button" class="genric-btn info" onclick="resetfun()">reset</button>
+     
+            </div>
+            
+        </div>
+        </form>
+
+        <table class="table table-striped text-center mytable" id="example" >
           <thead style="background:#B68834;" class="text-light">
             <tr>
+              <th>Show Products</th>
               <th>Id</th>
               <th>Requested By</th>
               <th>Total</th>
@@ -102,8 +125,10 @@
               $userId = $Order["userId"];
               $userRequested = $dbOrder->userRequested($userId); //name of the user requested
               $userName = $userRequested[0]["name"];
-              echo '<tr id="Order_' . $id . '"  class="products py-0 px-2"  
-               orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer">';              
+              echo '<tr class="productstr">';   
+               echo '<td id="Order_' . $id . '"  class="products py-0 px-2"  
+               orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer"><span class="p-2 px-3 m-2 start-100 translate-middle badge badge-info" style="font-size:18px">+</span>
+               </td>';           
              
               // $totalPrice = $Order["totalPrice"];
               // $status = $Order["status"];
@@ -158,7 +183,7 @@
               </tr>";
               echo '
               <tr id="order'.$id.'" class="hide " >
-              <td colspan="7">
+              <td colspan="8">
               <div class="accordion-body">
               <div class="container">
                 <div class="row row1">
@@ -260,20 +285,61 @@
   // get orders of product 
 
 $(".products").click(function() {
+  if(this.children[0].textContent=="+"){
+    this.children[0].textContent="-"
+  }else{
+    this.children[0].textContent="+"
+
+  }
   let id_name = $(this).attr("val");
-$(this).next().toggleClass('hide');
+$(this).parent().next().toggleClass('hide');
   $.ajax('../Controllers/productsOfOrderController.php', {
     type: 'POST', // http method
     data: {
       order_id: $(this).attr("orderid")
     }, // data to submit
     success: function(data, status, xhr) {
-      console.log(data);
       $("#" + id_name + ' .accordion-body .container .row1').html(data);
     }
 
   });
 });
+
+// search for orders using start and end date
+  // search by name for user
+  function myFunction() {
+    // Declare variables
+    var input1,input2, filter1,filter2, table, tr, td1, td2, i, txtValue1,txtValue2;
+    input1 = document.getElementById("myInput1");
+    input2 = document.getElementById("myInput2");
+    filter1 = input1.value.toUpperCase();
+    filter2 = input2.value.toUpperCase();
+    table = document.getElementsByClassName("mytable")[0];
+    tr = document.getElementsByClassName("productstr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td1 = tr[i].getElementsByTagName("td")[5];
+      td2 = tr[i].getElementsByTagName("td")[6];
+      if (td1&&td2) {
+        txtValue1 = (td1.textContent || td1.innerText);//start date
+        txtValue2 = (td2.textContent || td2.innerText);// end date
+        if ((txtValue1.toUpperCase().indexOf(filter1) > -1)&& (txtValue2.toUpperCase().indexOf(filter2)> -1)) {
+          tr[i].style.display = "";
+          tr[i].nextElementSibling.style.display="";
+
+        } else {
+          tr[i].style.display = "none";
+          tr[i].nextElementSibling.style.display="none";
+        }
+      }
+    }
+  }
+  function resetfun(){
+  $("#theForm")[0].reset();
+   e=document.getElementsByClassName('search')[0];
+   e.onclick()
+  }
 </script>
 
 </body>
