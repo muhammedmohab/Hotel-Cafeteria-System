@@ -29,17 +29,15 @@ foreach ($_REQUEST as $key => $val) {
 }
 
 
+
 function checkvalidpassword($val)
 {
     global $errors;
-    // Validate password strength
-    $uppercase = preg_match('@[A-Z]@', $val);
-    $lowercase = preg_match('@[a-z]@', $val);
-    $number    = preg_match('@[0-9]@', $val);
-    $specialChars = preg_match('@[^\w]@', $val);
+    $passwordpattern = "/([a-z1-9_]){6,}/i";
 
-    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($val) < 8) {
-        $errors['password'] = 'Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.';
+
+    if (!preg_match($passwordpattern, $val)) {
+        $errors['password'] = 'Password is Only 8 chars, Doesn’t allow special chars -only underscore allowed, Doesn’t accept Capital characters';
     }
 }
 function checkequalpassword()
@@ -131,7 +129,7 @@ $userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["pas
 $op->updateUser(intVal($userid), $userupdate);
 
 
-move_uploaded_file($file_tmp, "../public/images/profile_images/" . $file_name);
+move_uploaded_file($file_tmp, "../public/images/profile_images/".$userid.$file_name);
 // show the lines (users) in file in the table
 
 header("Location:../View/allUsers.php");

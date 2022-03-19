@@ -34,6 +34,11 @@
     <link rel="stylesheet" href="../Assets/css/animate.min.css">
     <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
     <link rel="stylesheet" href="../Assets/css/main.css">
+    <style>
+    .hide {
+            display: none;
+        }
+  </style>
 </head>
 
 <body>
@@ -91,7 +96,9 @@
                         require "../Bootstap/dbuser.php";
                         $alluser = $dbuser->selectAllUsers();
                         foreach ($alluser as $key => $value) {
-                            echo "<tr>";
+                            $id=$value["id"];
+                            echo '<tr "  class="orders py-0 px-2"  
+                            userid="'. $id .'"  val="user'.$id.'"  style="cursor:pointer">';
                             if($value['email'] == $_SESSION['authEmail'])
                                 continue;
                             foreach ($value as $k => $val) {
@@ -109,6 +116,33 @@
                            <td><a class='genric-btn danger small' href='../Controllers/DeleteController.php?id=$id' role='button'>Delete</a>
                            </td>
                            </tr>";
+                           echo '
+                           <tr id="user'.$id.'" class="hide bg-light " >
+                           <td colspan="7">
+                           <div class="container">
+                             <div class="row row1">
+                             <div class="col mt-3">
+                             <table class="table table-striped text-center">
+                             <thead style="background:#B68834;" class="text-light">
+                                <tr>
+                                     <th>OrderDte</th>
+                                     <th>Amount</th>
+                                     
+                                </tr>
+                             </thead>
+                             
+                             <tbody class="bg-light ordersbody">
+                             </tbody>
+                             </table>
+                             </div>
+                            
+                             </div>
+                          
+                           </td>
+                           </tr>
+                          
+                           
+                           ';
                         }
                         ?>
 
@@ -142,6 +176,53 @@
     <script src="../Assets/js/jquery.counterup.min.js"></script>
     <script src="../Assets/js/mail-script.js"></script>
     <script src="../Assets/js/main.js"></script>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script>
+ 
+
+  // get orders of user 
+
+$(".orders").click(function() {
+  let id_name = $(this).attr("val");
+$(this).next().toggleClass('hide');
+  $.ajax('../Controllers/ordersOfUserController.php', {
+    type: 'POST', // http method
+    data: {
+      user_id: $(this).attr("userid")
+    }, // data to submit
+    success: function(data, status, xhr) {
+      $("#" + id_name + '  .container .row1 .ordersbody').html(data);
+    }
+
+  });
+});
+
+function getProducts(e)
+{
+    let id_name = $(e).attr("val");
+  console.log(id_name)
+  $(e).next().toggleClass('hide');
+  $.ajax('../Controllers/productsOfOrderController.php', {
+    type: 'POST', // http method
+    data: {
+      order_id: $(e).attr("orderid")
+    }, // data to submit
+    success: function(data, status, xhr) {
+      console.log(data);
+      $("#" + id_name + ' .accordion-body .container .row1').html(data);
+    }
+
+  });
+}
+
+
+</script>
+
+
 </body>
 
 </html>
