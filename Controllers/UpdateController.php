@@ -12,6 +12,9 @@ $userid = $_REQUEST["id"];
 
 
 foreach ($_REQUEST as $key => $val) {
+    if($key=="old_image"){
+        continue;
+    }
     if (empty($_REQUEST[$key])) {
 
         $errors[$key] = $key . " is required ";
@@ -125,7 +128,7 @@ if (count($errors) > 0) {
 
 
 
-$userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $file_name);
+$userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $userid.$file_name);
 $op->updateUser(intVal($userid), $userupdate);
 
 
