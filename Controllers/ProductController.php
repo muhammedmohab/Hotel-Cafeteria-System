@@ -15,7 +15,7 @@ switch ($_REQUEST["validationType"]) {
         break;
 
     default:
-        echo "Unexpected request type";
+        header('Location: ../index.php?errors="Some Thing Wrong Try Again"');
         break;
 }
 function validateImage(): bool
@@ -72,7 +72,7 @@ function validateProduct(ProductQueryModel $dbProduct)
             }
         } else {
             // echo "error y abo 3mo";
-            header("location: ../View/editProduct.php?& ". $errors."&id={$_REQUEST['productId']}");
+            header("location: ../View/editProduct.php?& " . $errors . "&id={$_REQUEST['productId']}");
         }
     }
     return false;
@@ -124,13 +124,13 @@ function storeProduct(ProductQueryModel $dbProduct)
             $imageName,
             boolval($available)
         );
-        if ($dbProduct->insertProduct($newProduct)&&$dbProduct->updateProductImage()) {
-            $imageid=$dbProduct->getlastProduct()['id'];    
+        if ($dbProduct->insertProduct($newProduct) && $dbProduct->updateProductImage()) {
+            $imageid = $dbProduct->getlastProduct()['id'];
             move_uploaded_file(
-                    $_FILES['image']['tmp_name'],
-                    "../public/images/products_images/$imageid$imageName"
-                );
-                header("location: ../View/allProducts.php");
+                $_FILES['image']['tmp_name'],
+                "../public/images/products_images/$imageid$imageName"
+            );
+            header("location: ../View/allProducts.php");
         }
     }
 }

@@ -3,8 +3,8 @@
 		if (!$_SESSION["authRole"]) {
 			header('Location: ../index.php');
 		} else if ($_SESSION["authRole"] == 0) {
-			// header('Location: ../index.html');
-			var_dump("U ARE USER");
+			header('Location: ../index.html');
+			// var_dump("U ARE USER");
 		}
 
 		if (!empty($_GET["errors"])){
@@ -68,45 +68,30 @@
 <body>
 
 	<header id="header" id="home">
-		<div class="header-top">
-			<div class="container">
-				<div class="row justify-content-end">
-					<div class="col-lg-6 col-sm-4 col-8 header-top-right no-padding">
-						<ul>
-							<li>
-								Mon-Fri: 8am to 2pm
-							</li>
-							<li>
-								Sat-Sun: 11am to 4pm
-							</li>
-							<li>
-								<a href="tel:(012) 6985 236 7512">(012) 6985 236 7512</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="container">
 			<div class="row align-items-center justify-content-between d-flex">
 				<div id="logo">
 					<a href="../index.html"><img src="../Assets/img/logo.png" alt="" title="" /></a>
 				</div>
 				<nav id="nav-menu-container">
-					<ul class="nav-menu">
-						<li class="menu-active"><a href="../index.html#home">Home</a></li>
-						<li><a href="../index.html#about">About</a></li>
-						<li><a href="../index.html#coffee">Coffee</a></li>
-						<li><a href="../index.html#review">Review</a></li>
-						<li><a href="../index.html#blog">Blog</a></li>
-						<li class="menu-has-children"><a href="">User</a>
-							<ul>
-								<li><a href="login.html">Login</a></li>
-								<li><a href="signup.html">Signup</a></li>
-							</ul>
-						</li>
-					</ul>
-				</nav><!-- #nav-menu-container -->
+                    <ul class="nav-menu">
+                        <li class="menu-active"><a href="../index.php">Home</a></li>
+                        <li><a href="allProducts.php">Products</a></li>
+                        <li><a class="text-center" href="allUsers.php">Users</a></li>
+                        <li><a href="allOrders.php">Orders</a></li>
+                        <li><a href="createOrder.php">Buy Now</a></li>
+                        <li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
+                            <ul>
+                                <li>
+                                    <form action="Controllers/ValidationController.php" method="post">
+                                        <input type="hidden" name="validationType" value="Logout">
+                                        <input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav><!-- #nav-menu-container -->
 			</div>
 		</div>
 	</header><!-- #header -->
@@ -169,7 +154,7 @@
 							?>
 						</div>
 						<div class="mt-10">
-							<input type="file" name="image" placeholder="Image" onfocus="this.placeholder = ''" onblur="this.placeholder = 'image'"   class="single-input">
+							<input type="file" name="image" placeholder="Image" onfocus="this.placeholder = ''" onblur="this.placeholder = 'image'"   class="form-control ">
 							<?php 
 								if (isset($errorsFounded['image']))
 								echo "<p class='text-danger message'> ${errorsFounded['image']}</p>";
@@ -184,10 +169,10 @@
 						</div>
 						<section class="button-area">
 							<div class="container border-top-generic">
-								<button type="submit" class="genric-btn primary">Register</button>
+								<button type="submit" class="genric-btn primary circle my-3 ">Register</button>
 							</div>
 						</section>
-				</div>
+				</div>Regis
 			</div>
 		</div>
 		

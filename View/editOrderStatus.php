@@ -72,27 +72,19 @@ $Order = $dbOrder->selectSpecificOrder(intval($_REQUEST["id"]))[0];
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active"><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#coffee">Coffee</a></li>
-                        <li><a href="#review">Review</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li class="menu-has-children"><a href="">Pages</a>
+                        <li class="menu-active"><a href="../index.php">Home</a></li>
+                        <li><a href="allProducts.php">Products</a></li>
+                        <li><a class="text-center" href="allUsers.php">Users</a></li>
+                        <li><a href="allOrders.php">Orders</a></li>
+                        <li><a href="createOrder.php">Buy Now</a></li>
+                        <li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
                             <ul>
-                                <li><a class="text-center" href="View/generic.html">Generic</a></li>
-                                <li><a class="text-center" href="View/elements.html">Elements</a></li>
-                                <?php
-                                if (isset($_SESSION["authRole"])) {
-                                    if ($_SESSION["authRole"] == 1) {
-                                        echo '<li><a class="text-center" href="View/allUsers.php">All Users</a></li>';
-                                    }
-                                    echo '<li><form action="Controllers/ValidationController.php" method="post">
-                                    <input type="hidden" name="validationType" value="Logout">
-                                    <input class="btn btn-block mb-4 genric-btn primary radius" type="submit"  value="Log out">
-                                    </form></li>';
-                                }
-                                ?>
-
+                                <li>
+                                    <form action="Controllers/ValidationController.php" method="post">
+                                        <input type="hidden" name="validationType" value="Logout">
+                                        <input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     </ul>

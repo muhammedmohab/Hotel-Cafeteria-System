@@ -19,7 +19,7 @@ switch ($_REQUEST["validationType"]) {
         break;
 
     default:
-        echo "Unexpected request type";
+        header('Location: ../index.php?errors="Some Thing Wrong Try Again"');
         break;
 }
 function validateOrder()
@@ -60,7 +60,10 @@ function storeOrder(OrderQueryModel $dbOrder, OrderProductsQueryModel $dbOrderPr
             );
             echo "<br>";
             $dbOrderProducts->insertProductOrder($newProductOrder);
-            header("location: ../View/myOrders.php");
+            if ($_SESSION['authRole'] == 1)
+                header("location: ../View/allOrders.php");
+            else
+                header("location: ../View/myOrders.php");
         }
     }
 }

@@ -1,2 +1,4 @@
 .env
 .vscode
+public/images/*
+!public/images/Readme_File
