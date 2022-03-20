@@ -3,4 +3,5 @@
  $dbProduct=require "ProductBootstrap.php";
  $dbOrder = require "OrderBootstrap.php";
  $dbCategory = require "CategoryBootStrap.php";
+ $dbOrderProducts = require "OrderProductsBootstrap.php";
 ?>
