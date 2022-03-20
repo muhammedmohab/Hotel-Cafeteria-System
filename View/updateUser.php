@@ -1,8 +1,12 @@
 <?php
 
+session_start();
+if (!empty($_SESSION["authRole"])) {
+    header('Location: ../index.php');
+}
 require "../Bootstap/dbuser.php";
 $user = $dbuser->selectSpecificUser(intval($_REQUEST["id"]))[0];
-$all_rooms=$dbuser->selectAllRoomNumbers();
+$all_rooms = $dbuser->selectAllRoomNumbers();
 
 ?>
 <!DOCTYPE html>
@@ -37,10 +41,9 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
     <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
     <link rel="stylesheet" href="../Assets/css/main.css">
     <style>
-      label{
-          font-weight: bold;
-      }    
-       
+        label {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -50,7 +53,7 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
     <section class="banner-area" id="home">
         <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-start">
-            
+
             </div>
         </div>
     </section>
@@ -69,7 +72,7 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
                                 <label for="exampleInputusername" class="form-label">Name :</label>
                             </div>
                             <div class="col-6">
-                                <input type="text" class="form-control" id="exampleInputusername" name="username" value="<?php echo $user["name"]; ?>"/>
+                                <input type="text" class="form-control" id="exampleInputusername" name="username" value="<?php echo $user["name"]; ?>" />
                             </div>
                             <div class="col-auto">
                                 <span id="passwordHelpInline" class="form-text" style="color: red">
@@ -142,7 +145,7 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
                                     <?php
 
                                     foreach ($all_rooms as $room) {
-                                      
+
 
                                         echo '<option value="' . $room["roomNumber"] . '" id="flexCheckDefault1"' . (($user["roomNumber"] == $room["roomNumber"]) ? "selected" : "") . '>' . $room["roomNumber"] . '</option>';
                                     }
@@ -167,9 +170,9 @@ $all_rooms=$dbuser->selectAllRoomNumbers();
                             </div>
                             <input name="old_image" value="<?php echo $user["image"]; ?>" hidden>
                             <div class="col-6">
-                                <input class="form-control form-control-lg" id="formFileLg" type="file" name="image" >
+                                <input class="form-control form-control-lg" id="formFileLg" type="file" name="image">
                                 <span class="form-text" style="color: black">
-                                <?php echo $user["image"]; ?>
+                                    <?php echo $user["image"]; ?>
                                 </span>
                             </div>
                             <div class="col-auto">

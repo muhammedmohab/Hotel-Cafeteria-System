@@ -7,7 +7,7 @@ class Order{
     private $createdAt;
     private $finishedAt;
 
-    public function __construct($userId, $totalPrice, $status){
+    public function __construct($userId, $totalPrice, $status="In-Progress"){
         $this->userId = $userId;
         $this->totalPrice = $totalPrice;
         $this->status = $status;

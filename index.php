@@ -121,7 +121,7 @@ session_start();
 											})</script>"; 
 						}
 							else
-							echo "<button type='button'class='primary-btn text-uppercase' data-bs-toggle='modal' data-bs-target='#exampleModal'>Buy now</button>";
+							echo "<a href='View/createOrder.php' class=' primary-btn text-uppercase'>Buy now</a>";
 					?>
 					<div id="alert" class="alert alert-dismissible fade mt-3 text-center" role="alert">
 						<strong class="text-white">Holy guacamole! </strong> <p class="text-white d-inline"><?php echo "${_GET['errors']}" ?></p>

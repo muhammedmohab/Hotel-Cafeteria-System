@@ -1,7 +1,7 @@
 <?php session_start();
-// if (!$_SESSION["authRole"]){
-//     header('Location: ../index.php');
-// }
+if (!$_SESSION["authRole"]){
+    header('Location: ../index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -53,7 +53,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="../index.php">Home</a></li>
-                        <li><a href="../Controllers/UserController.php">all users</a></li>
+                        <li><a href="">all users</a></li>
                         <li><a href="">Coffee</a></li>
                         <li><a href="">Review</a></li>
                         <li><a href="">Blog</a></li>
@@ -109,7 +109,7 @@
                         $alluser = $dbuser->selectAllUsers();
                         foreach ($alluser as $key => $value) {
                             $id = $value["id"];
-                            echo '<tr class="orderstr"  >';
+                            echo '<tr class="orderstr" >';
                             echo '<td class="orders py-0 px-2"  
                             userid="' . $id . '"  val="user' . $id . '"  style="cursor:pointer"><span class="p-2 px-3 m-2 start-100 translate-middle badge badge-info" style="font-size:18px">+</span></td>';
                             if ($value['email'] == $_SESSION['authEmail'])
