@@ -1,7 +1,7 @@
 <?php session_start();
-// if (!$_SESSION["authRole"]){
-//     header('Location: ../index.php');
-// }
+if (!$_SESSION["authRole"]){
+    header('Location: ../index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -110,10 +110,11 @@
                         foreach ($alluser as $key => $value) {
                             $id = $value["id"];
                             echo '<tr class="orderstr"  >';
-                            echo '<td class="orders py-0 px-2"  
-                            userid="' . $id . '"  val="user' . $id . '"  style="cursor:pointer"><span class="p-2 px-3 m-2 start-100 translate-middle badge badge-info" style="font-size:18px">+</span></td>';
+                           
                             if ($value['email'] == $_SESSION['authEmail'])
                                 continue;
+                                echo '<td class="orders py-0 px-2"  
+                                userid="' . $id . '"  val="user' . $id . '"  style="cursor:pointer"><span class="p-2 px-3 m-2 start-100 translate-middle badge badge-info" style="font-size:18px">+</span></td>';
                             foreach ($value as $k => $val) {
                                 $id = $value["id"];
                                 if ($k == "admin"  || $k == "password") continue;
