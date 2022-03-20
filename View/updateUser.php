@@ -1,7 +1,6 @@
 <?php
-
 session_start();
-if (!empty($_SESSION["authRole"])) {
+if (empty($_SESSION["authRole"])) {
     header('Location: ../index.php');
 }
 require "../Bootstap/dbuser.php";
@@ -48,7 +47,34 @@ $all_rooms = $dbuser->selectAllRoomNumbers();
 </head>
 
 <body>
-
+    <header id="header" id="home">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="../index.html"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li class="menu-active"><a href="../index.php">Home</a></li>
+                        <li><a href="allProducts.php">Products</a></li>
+                        <li><a class="text-center" href="allUsers.php">Users</a></li>
+                        <li><a href="allOrders.php">Orders</a></li>
+                        <li><a href="createOrder.php">Buy Now</a></li>
+                        <li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
+                            <ul>
+                                <li>
+                                    <form action="Controllers/ValidationController.php" method="post">
+                                        <input type="hidden" name="validationType" value="Logout">
+                                        <input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav><!-- #nav-menu-container -->
+            </div>
+        </div>
+    </header><!-- #header -->
     <!-- start banner Area -->
     <section class="banner-area" id="home">
         <div class="container">

@@ -8,8 +8,8 @@ require "../Bootstap/dbuser.php";
 // return;
 $Product = $dbProduct->selectSpecificProduct(intval($_REQUEST["id"]))[0];
 $Categories = $dbProduct->selectAllCategories();
-$count=1;
-if(empty($Product) || empty($Categories))
+$count = 1;
+if (empty($Product) || empty($Categories))
     header("location: ../index.php");
 ?>
 <!DOCTYPE html>
@@ -60,26 +60,18 @@ if(empty($Product) || empty($Categories))
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="../index.php">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="../View/allProducts.php">Coffee</a></li>
-                        <li><a href="#review">Review</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li class="menu-has-children"><a class="mousePointer" style="color:white ">Pages</a> 
+                        <li><a href="allProducts.php">Products</a></li>
+                        <li><a class="text-center" href="allUsers.php">Users</a></li>
+                        <li><a href="allOrders.php">Orders</a></li>
+                        <li><a href="createOrder.php">Buy Now</a></li>
+                        <li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
                             <ul>
-                                <li><a class="text-center" href="generic.html">Generic</a></li>
-                                <li><a class="text-center" href="elements.html">Elements</a></li>
-                                <?php
-                                if (isset($_SESSION["authRole"])) {
-                                    if ($_SESSION["authRole"] == 1) {
-                                        echo '<li><a class="text-center" href="View/allUsers.php">All Users</a></li>';
-                                    }
-                                    echo '<li><form action="Controllers/ValidationController.php" method="post">
-										<input type="hidden" name="validationType" value="Logout">
-										<input class="btn btn-block mb-4 genric-btn primary radius" type="submit"  value="Log out">
-										</form></li>';
-                                }
-                                ?>
-
+                                <li>
+                                    <form action="Controllers/ValidationController.php" method="post">
+                                        <input type="hidden" name="validationType" value="Logout">
+                                        <input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -128,7 +120,7 @@ if(empty($Product) || empty($Categories))
                                 <label for="productPrice" class="form-label">Price</label>
                             </div>
                             <div class="col-6">
-                                <input required type="text"oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
+                                <input required type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" id="productPirce" name="productPirce" value="<?php echo $Product["price"]; ?>">
                             </div>
                             <div class="col-auto">
                                 <span class="form-text" style="color: red">
@@ -141,15 +133,15 @@ if(empty($Product) || empty($Categories))
                     </div>
                     <div class="mb-2 form-group d-flex align-items-center justify-content-between border" style="width: 66%;">
                         <label for="switch-wrap">Availability</label>
-                        <div class="primary-switch" >
-                            <?php 
-                                if($Product['available']==0)
-                                    echo '<input name="available" type="checkbox" id="switch-wrap">';
-                                else
-                                    echo '<input checked name="available" type="checkbox" id="switch-wrap" value="true">';
+                        <div class="primary-switch">
+                            <?php
+                            if ($Product['available'] == 0)
+                                echo '<input name="available" type="checkbox" id="switch-wrap">';
+                            else
+                                echo '<input checked name="available" type="checkbox" id="switch-wrap" value="true">';
                             ?>
                             <!-- not available -->
-                            <label for="switch-wrap" ></label>
+                            <label for="switch-wrap"></label>
                             <!-- available -->
                         </div>
                     </div>
@@ -162,7 +154,7 @@ if(empty($Product) || empty($Categories))
                                 <select required class="form-select" name="categoryId">
                                     <?php
                                     foreach ($Categories as $category) {
-                                        echo '<option value="'.$category["id"].'"'
+                                        echo '<option value="' . $category["id"] . '"'
                                             . (($Product["categoryId"] == $category["id"]) ? "selected" : "")
                                             . '>' . $category["name"] . '</option>';
                                     }
@@ -214,7 +206,7 @@ if(empty($Product) || empty($Categories))
             </div>
             <div class="col-3 align-items-center ">
                 <h2 class="text-heading text-center mb-5 mt-3" style="color: #543804;">Poduct Image</h2>
-                <img class="subject-image" width="100%" src="<?php echo "../public/images/products_images/".$Product["image"]; ?>" alt="">
+                <img class="subject-image" width="100%" src="<?php echo "../public/images/products_images/" . $Product["image"]; ?>" alt="">
             </div>
         </div>
     </div>

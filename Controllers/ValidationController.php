@@ -15,7 +15,7 @@ switch ($_REQUEST["validationType"]) {
         break;
 
     default:
-        echo "salaaahsalaaah";
+        header('Location: ../index.php?errors="Some Thing Wrong Try Again"');
         break;
 }
 

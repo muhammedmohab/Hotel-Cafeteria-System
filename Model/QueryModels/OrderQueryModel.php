@@ -61,13 +61,21 @@ class OrderQueryModel
         }
         return false;
     }
-
     public function deleteProductsOrder($id): bool
     {
         $query = "delete FROM orderproduct WHERE orderId=:order_id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindValue(":order_id", $id, PDO::PARAM_INT);
         return $stmt->execute();
+    }
+    public function deleteUserOrders($id): bool
+    {
+        $userOrders = $this->selectUserOrders($id);
+        foreach($userOrders as $order){
+            if(!$this->deleteOrder($order['id']))
+                return false;
+        } 
+        return true;
     }
     public function userRequested($id)
     {

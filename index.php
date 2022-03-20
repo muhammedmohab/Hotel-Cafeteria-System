@@ -1,4 +1,4 @@
-<?php   
+<?php
 session_start();
 
 ?>
@@ -35,8 +35,8 @@ session_start();
 	<link rel="stylesheet" href="Assets/css/owl.carousel.css">
 	<link rel="stylesheet" href="Assets/css/main.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -67,30 +67,28 @@ session_start();
 				</div>
 				<nav id="nav-menu-container">
 					<ul class="nav-menu">
-						<li class="menu-active"><a href="#home">Home</a></li>
-						<li><a href="#about">About</a></li>
-						<li><a href="#coffee">Coffee</a></li>
-						<li><a href="#review">Review</a></li>
-						<li><a href="#blog">Blog</a></li>
-						<li class="menu-has-children"><a href="">Pages</a>
-							<ul >
-								<li><a class="text-center" href="View/generic.html">Generic</a></li>
-								<li><a class="text-center"  href="View/elements.html">Elements</a></li>
-								<?php 
-								if (isset($_SESSION["authRole"] )){
-									if ($_SESSION["authRole"]==1){
-										echo '<li><a class="text-center" href="View/allUsers.php">All Users</a></li>';	
-									}
-									    echo '<li><form action="Controllers/ValidationController.php" method="post">
+						<!-- <li><a href="#about">About</a></li> -->
+						<?php
+						if (!empty($_SESSION["authId"])) {
+							if ($_SESSION["authRole"] == 1) {
+								echo '<li><a href="/View/allProducts.php">Products</a></li>';
+								echo '<li><a class="text-center" href="/View/allUsers.php">Users</a></li>';
+								echo '<li><a href="/View/allOrders.php">Orders</a></li>';
+							} else
+								echo '<li><a href="/View/myOrders.php">My Orders</a></li>';
+
+							echo '<li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
+							<ul>
+								<li>
+									<form action="Controllers/ValidationController.php" method="post">
 										<input type="hidden" name="validationType" value="Logout">
-										<input class="btn btn-block mb-4 genric-btn primary radius" type="submit"  value="Log out">
-										</form></li>';
-									
-									}
-								?>
-								
+										<input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+									</form>
+								</li>
 							</ul>
-						</li>
+						</li>';
+						}
+						?>
 					</ul>
 				</nav><!-- #nav-menu-container -->
 			</div>
@@ -100,7 +98,7 @@ session_start();
 	<!-- start banner Area -->
 	<section class="banner-area" id="home">
 		<!-- Alert Section -->
-	<!-- End of alert Section -->
+		<!-- End of alert Section -->
 		<div class="container">
 			<div class="row fullscreen d-flex align-items-center justify-content-start">
 				<div class="banner-content col-lg-7">
@@ -111,21 +109,21 @@ session_start();
 					</h1>
 					<!--  -->
 					<!-- session for checking if user or admin login -->
-					<?php 
-						if(empty($_SESSION["authUsername"])){
-							echo "<button type='button'class='primary-btn text-uppercase' data-bs-toggle='modal' data-bs-target='#exampleModal'>Login</button>";
-							if (isset($_GET["errors"]))
-								echo "<script>window.addEventListener('load', function(){var element = document.getElementById('alert'); element.classList.add('show');
+					<?php
+					if (empty($_SESSION["authUsername"])) {
+						echo "<button type='button'class='primary-btn text-uppercase' data-bs-toggle='modal' data-bs-target='#exampleModal'>Login</button>";
+						if (isset($_GET["errors"]))
+							echo "<script>window.addEventListener('load', function(){var element = document.getElementById('alert'); element.classList.add('show');
 											setTimeout(function() {
-											$('#alert').hide()}, 4000);
-											})</script>"; 
-						}
-							else
-							echo "<a href='View/createOrder.php' class=' primary-btn text-uppercase'>Buy now</a>";
+											$('#alert').hide()}, 5000);
+											})</script>";
+					} else
+						echo "<a href='View/createOrder.php' class=' primary-btn text-uppercase'>Buy now</a>";
 					?>
 					<div id="alert" class="alert alert-dismissible fade mt-3 text-center" role="alert">
-						<strong class="text-white">Holy guacamole! </strong> <p class="text-white d-inline"><?php echo "${_GET['errors']}" ?></p>
-					</div>					
+						<strong class="text-white">Holy guacamole! </strong>
+						<p class="text-white d-inline"><?php echo " ${_GET['errors']}" ?></p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -138,8 +136,7 @@ session_start();
 			<div class="row justify-content-start align-items-center">
 				<div class="col-lg-6 video-right justify-content-center align-items-center d-flex">
 					<div class="overlay overlay-bg"></div>
-					<a class="play-btn" href="https://www.youtube.com/watch?v=ARA0AxrnHdM"><img class="img-fluid"
-							src="img/play-icon.png" alt=""></a>
+					<a class="play-btn" href="https://www.youtube.com/watch?v=ARA0AxrnHdM"><img class="img-fluid" src="img/play-icon.png" alt=""></a>
 				</div>
 				<div class="col-lg-6 video-left">
 					<h6>Live Coffee making process.</h6>
@@ -470,9 +467,10 @@ session_start();
 						<p class="footer-text">
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							Copyright &copy;
-							<script>document.write(new Date().getFullYear());</script> All rights reserved | This
-							template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
-								href="https://colorlib.com" target="_blank">Colorlib</a>
+							<script>
+								document.write(new Date().getFullYear());
+							</script> All rights reserved | This
+							template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</p>
 					</div>
@@ -482,17 +480,11 @@ session_start();
 						<h6>Newsletter</h6>
 						<p>Stay update with our latest</p>
 						<div class="" id="mc_embed_signup">
-							<form target="_blank" novalidate="true"
-								action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-								method="get" class="form-inline">
-								<input class="form-control" name="EMAIL" placeholder="Enter Email"
-									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-									required="" type="email">
-								<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
-										aria-hidden="true"></i></button>
+							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
+								<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
+								<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
 								<div style="position: absolute; left: -5000px;">
-									<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
-										type="text">
+									<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
 								</div>
 
 								<div class="info pt-20"></div>
@@ -520,12 +512,9 @@ session_start();
 
 
 	<script src="Assets/js/vendor/jquery-2.2.4.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="Assetsjs/vendor/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
 	<script src="Assets/js/easing.min.js"></script>
 	<script src="Assets/js/hoverIntent.js"></script>
 	<script src="Assets/js/superfish.min.js"></script>
@@ -539,63 +528,63 @@ session_start();
 	<script src="Assets/js/jquery.counterup.min.js"></script>
 	<script src="Assets/js/mail-script.js"></script>
 	<script src="Assets/js/main.js"></script>
-	
 
-	 <!-- Modal -->
-	 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-			
-			  <button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			  </button>
-			
-			</div>
-			<div class="modal-body">
-				<form action="Controllers/ValidationController.php" method="post">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Login</h5>
 
-					<input type="hidden" name="validationType" value="login">
-					<!-- Email input -->
-					<div class="form-outline mb-4">
-						<label class="form-label" for="EmailAddress" name="email">Email address</label>
-					  <input type="email" id="EmailAddress" class="form-control border" name="email"/>
-					</div>
-				  
-					<!-- Password input -->
-					<div class="form-outline mb-4">
-						<label class="form-label" for="Password" name="password">Password</label>
-					  <input type="password" id="Password" class="form-control border" name="password" />
-					</div>
-				  
-					<!-- 2 column grid layout for inline styling -->
-					<div class="row mb-4">
-					  <div class="col d-flex justify-content-center">
-						<!-- Checkbox -->
-						<div class="form-check">
-						  <input class="form-check-input" type="checkbox" value="" id="remember" name="rememberMe" checked />
-						  <label class="form-check-label" for="remember"> Remember me </label>
+					<button type="button" class="close btn-close" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+
+				</div>
+				<div class="modal-body">
+					<form action="Controllers/ValidationController.php" method="post">
+
+						<input type="hidden" name="validationType" value="login">
+						<!-- Email input -->
+						<div class="form-outline mb-4">
+							<label class="form-label" for="EmailAddress" name="email">Email address</label>
+							<input type="email" id="EmailAddress" class="form-control border" name="email" />
 						</div>
-					  </div>
-				  
-					  <div class="col">
-						<!-- Simple link -->
-						<a href="#!">Forgot password?</a>
-					  </div>
-					</div>
-				  
-					<!-- Submit button -->
-					<button type="submit" class="btn  btn-block mb-4 genric-btn primary radius">Sign in</button>
-				  
-					
-				  </form>
+
+						<!-- Password input -->
+						<div class="form-outline mb-4">
+							<label class="form-label" for="Password" name="password">Password</label>
+							<input type="password" id="Password" class="form-control border" name="password" />
+						</div>
+
+						<!-- 2 column grid layout for inline styling -->
+						<div class="row mb-4">
+							<div class="col d-flex justify-content-center">
+								<!-- Checkbox -->
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="remember" name="rememberMe" checked />
+									<label class="form-check-label" for="remember"> Remember me </label>
+								</div>
+							</div>
+
+							<div class="col">
+								<!-- Simple link -->
+								<a href="#!">Forgot password?</a>
+							</div>
+						</div>
+
+						<!-- Submit button -->
+						<button type="submit" class="btn  btn-block mb-4 genric-btn primary radius">Sign in</button>
+
+
+					</form>
+				</div>
+
 			</div>
-			
-		  </div>
 		</div>
-	  </div>
-    
+	</div>
+
 
 </body>
 

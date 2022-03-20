@@ -1,7 +1,9 @@
 <?php
-    session_start();
-    require "../Bootstap/dbuser.php";
-    $userId = $_SESSION["authId"];
+session_start();
+if (!$_SESSION['authId'])
+  header('location:../index.php');
+require "../Bootstap/dbuser.php";
+$userId = $_SESSION["authId"];
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -23,21 +25,21 @@
   <title>Coffee</title>
 
   <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
-    <!--
+  <!--
 			CSS
 			============================================= -->
-    <link rel="stylesheet" href="../Assets/css/linearicons.css">
-    <link rel="stylesheet" href="../Assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../Assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../Assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="../Assets/css/nice-select.css">
-    <link rel="stylesheet" href="../Assets/css/animate.min.css">
-    <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
-    <link rel="stylesheet" href="../Assets/css/main.css">
-<style>
-   .hide {
-            display: none;
-        }
+  <link rel="stylesheet" href="../Assets/css/linearicons.css">
+  <link rel="stylesheet" href="../Assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../Assets/css/bootstrap.css">
+  <link rel="stylesheet" href="../Assets/css/magnific-popup.css">
+  <link rel="stylesheet" href="../Assets/css/nice-select.css">
+  <link rel="stylesheet" href="../Assets/css/animate.min.css">
+  <link rel="stylesheet" href="../Assets/css/owl.carousel.css">
+  <link rel="stylesheet" href="../Assets/css/main.css">
+  <style>
+    .hide {
+      display: none;
+    }
   </style>
 </head>
 
@@ -51,11 +53,27 @@
         </div>
         <nav id="nav-menu-container">
           <ul class="nav-menu">
-            <li class="menu-active"><a href="../index.html">Home</a></li>
-            <li><a href="../Controllers/UserController.php">all users</a></li>
-            <li><a href="">Coffee</a></li>
-            <li><a href="">Review</a></li>
-            <li><a href="">Blog</a></li>
+            <li class="menu-active"><a href="../index.php">Home</a></li>
+            <!-- <li><a href="#about">About</a></li> -->
+            <?php
+            if ($_SESSION["authRole"] == 1) {
+              echo '<li><a href="allProducts.php">Products</a></li>';
+              echo '<li><a class="text-center" href="allUsers.php">Users</a></li>';
+              echo '<li><a href="allOrders.php">Orders</a></li>';
+            } else
+              echo '<li><a href="myOrders.php">My Orders</a></li>';
+            ?>
+            <li><a href="createOrder.php">Buy Now</a></li>
+            <li class="menu-has-children mousePointer " style="color:white "><a onclick=" event.preventDefault()">Pages</a>
+              <ul>
+                <li>
+                  <form action="Controllers/ValidationController.php" method="post">
+                    <input type="hidden" name="validationType" value="Logout">
+                    <input class="btn btn-block genric-btn primary radius" type="submit" value="Log out">
+                  </form>
+                </li>
+              </ul>
+            </li>
           </ul>
         </nav><!-- #nav-menu-container -->
       </div>
@@ -94,7 +112,7 @@
             foreach ($allUserOrders as $index => $Order) {
               $id = $Order["id"];
               echo '<tr id="Order_' . $id . '"  class="products py-0 px-2"  
-                orderid="'. $id .'"  val="order'.$id.'"  style="cursor:pointer">';  
+                orderid="' . $id . '"  val="order' . $id . '"  style="cursor:pointer">';
               foreach ($Order as $attribute => $attributeValue) {
                 if ($attribute == "created_at" || $attribute == "status" || $attribute == "totalPrice") {
                   if ($attribute == "created_at" && !empty($attributeValue)) {
@@ -123,7 +141,7 @@
                                
               </tr>";
               echo '
-              <tr id="order'.$id.'" class="hide " >
+              <tr id="order' . $id . '" class="hide " >
               <td colspan="7">
               <div class="accordion-body">
               <div class="container">
@@ -214,37 +232,37 @@
   </div>
   </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   <!-- Script to show the order ID -->
   <script>
-  $('#updateModal').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id');
-    $(this).find('.modal-body input').first().val(orderId);
-  })
-  $('#viewModel').on('show.bs.modal', function (event) {
-    let orderId = $(event.relatedTarget).data('id');
-    $(this).find('.modal-body input').first().val(orderId);
-  })
+    $('#updateModal').on('show.bs.modal', function(event) {
+      let orderId = $(event.relatedTarget).data('id');
+      $(this).find('.modal-body input').first().val(orderId);
+    })
+    $('#viewModel').on('show.bs.modal', function(event) {
+      let orderId = $(event.relatedTarget).data('id');
+      $(this).find('.modal-body input').first().val(orderId);
+    })
 
-  // get orders of product 
+    // get orders of product 
 
-$(".products").click(function() {
-let id_name = $(this).attr("val");
-$(this).next().toggleClass('hide');
-  $.ajax('../Controllers/productsOfOrderController.php', {
-    type: 'POST', // http method
-    data: {
-      order_id: $(this).attr("orderid")
-    }, // data to submit
-    success: function(data, status, xhr) {
-      console.log(data);
-      $("#" + id_name + ' .accordion-body .container .row1').html(data);
-    }
+    $(".products").click(function() {
+      let id_name = $(this).attr("val");
+      $(this).next().toggleClass('hide');
+      $.ajax('../Controllers/productsOfOrderController.php', {
+        type: 'POST', // http method
+        data: {
+          order_id: $(this).attr("orderid")
+        }, // data to submit
+        success: function(data, status, xhr) {
+          console.log(data);
+          $("#" + id_name + ' .accordion-body .container .row1').html(data);
+        }
 
-  });
-});
-</script>
+      });
+    });
+  </script>
 
 </body>
 
