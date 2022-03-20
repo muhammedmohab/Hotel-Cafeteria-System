@@ -79,4 +79,11 @@ class ProductQueryModel{
         $result = $stmt->fetchAll();
         return $result;
     }
+    public function selectAvailableProducts(){
+        $stmt = $this->connection->prepare("select * from product where available=1");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll();
+        return $result;
+    }
 }

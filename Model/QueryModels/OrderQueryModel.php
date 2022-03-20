@@ -22,10 +22,11 @@ class OrderQueryModel{
         return $result;
     }
     public function insertOrder(Order $order):bool{
-       $query="Insert INTO orders (userId, totalPrice, status, created_at)Values(?,?,?,?)";
+        $today = new DateTime();$today = $today->format('Y-m-d H:i:s');
+        $query="Insert INTO orders (userId, totalPrice, status, created_at)Values(?,?,?,?)";
        $stmt= $this->connection->prepare($query);
-       $result=$stmt->execute([$order->getId(),$order->getTotalPrice(),$order->getStatus()
-       ,$order->getCreatedAt()]);
+       $result=$stmt->execute([$order->getUserId(),$order->getTotalPrice(),$order->getStatus()
+       ,$today]);
        return $result;
     }
     public function updateOrder(String $status, int $id):bool{
@@ -73,6 +74,13 @@ class OrderQueryModel{
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $result = $stmt->fetchAll();
+        return $result;
+    }
+    public function selectLastOrder(){
+        $stmt = $this->connection->prepare("select * from orders order by id desc limit 1");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch();
         return $result;
     }
 }
