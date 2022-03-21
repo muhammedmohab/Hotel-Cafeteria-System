@@ -108,8 +108,8 @@ if (!$_SESSION["authRole"]) {
                             <th>Email</th>
                             <th>Room No</th>
                             <th>image</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
+                            <!-- <th>Delete</th> -->
                         </tr>
                     </thead>
 
@@ -136,9 +136,8 @@ if (!$_SESSION["authRole"]) {
                                 }
                             }
                             echo "
-                           <td><a class='genric-btn info circle small py-1' href='updateUser.php?id=$id' role='button'>Update</a>
-                           </td>
-                           <td><a class='genric-btn danger circle small py-1' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Cancel</a>
+                           <td><a class='genric-btn info circle small py-1 my-2' href='updateUser.php?id=$id' role='button'>Update</a>
+                           <a class='genric-btn danger circle small py-1 my-2' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Cancel</a>
                            </td>
                            </tr>";
                             echo '

@@ -1,13 +1,10 @@
 <?php
 session_start();
-if (empty($_SESSION["authRole"])) {
+if (empty($_SESSION["authRole"]) || $_SESSION["authRole"] == 0) {
     header('Location: ../index.php');
 }
 require "../Bootstap/dbuser.php";
 $Categories = $dbProduct->selectAllCategories();
-// $count=1;
-if (empty($Categories))
-    header("location: ../index.php");
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">

@@ -116,8 +116,8 @@
 		<div class="section-top-border">
 			<div class="row">
 				<div class="col-lg-8 col-md-8">
-					<h3 class="mb-30">Register</h3>
-					<form action="../Controllers/ValidationController.php" method="post">
+					<h3 class="mb-30">Add User</h3>
+					<form action="../Controllers/ValidationController.php" enctype="multipart/form-data" method="post">
 					<input type="hidden" name="validationType" value="register">
 						<div class="mt-10">
 							<input type="text" name="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"  class="single-input">
@@ -172,7 +172,7 @@
 								<button type="submit" class="genric-btn primary circle my-3 ">Register</button>
 							</div>
 						</section>
-				</div>Regis
+				</div>
 			</div>
 		</div>
 		

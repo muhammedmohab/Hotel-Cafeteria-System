@@ -40,6 +40,33 @@ function  validationLogin($dbuser)
         }
     }
 }
+function validateImage(): bool
+{
+    $error = "";
+    if (isset($_FILES['image'])) {
+        $file_size = $_FILES['image']['size'];
+        $file_ext = strtolower(explode('.', $_FILES['image']['name'])[1]);
+
+        $expensions = array("jpeg", "jpg", "png");
+
+        if (in_array($file_ext, $expensions) === false) {
+            $error = $error . "&imageError=extension not allowed, please choose a JPEG or PNG file.";
+        }
+
+        if (empty($_FILES['image']['name'])) {
+            $error = $error . "&imageError=image upload is required";
+        }
+        if ($file_size > 2097152) {
+            $error = $error . "&imageError=File size must be excately 2 MB";
+        }
+    } else
+        $error = $error . "This field is required";
+    if (empty($error))
+        return true;
+    else
+        header("location: ../View/register.php?&errors=" . $error);
+    return false;
+}
 function  validationRegister($dbuser)
 {
     $passwordpattern = "/([a-z1-9_]){6,}/i";
@@ -60,15 +87,24 @@ function  validationRegister($dbuser)
                 if (!empty($_POST["role"])) {
                     $role = true;
                 }
-                $newUser = new User($_POST["name"], $_POST["email"], $_POST["password"], $_POST["room_number"], $_POST["image"], $role);
-                $dbuser->insertUser($newUser);
-                header('Location: ../View/allUsers.php');
+                // var_dump($_FILES);
+                // return;
+                // exit;
+                if (validateImage()) {
+                    $newUser = new User($_POST["name"], $_POST["email"], $_POST["password"], $_POST["room_number"], $_FILES["image"]['name'], $role);
+                    $dbuser->insertUser($newUser);
+                    move_uploaded_file(
+                        $_FILES['image']['tmp_name'],
+                        "../public/images/profile_images/".$_FILES['image']['name']
+                    );
+                    header('Location: ../View/allUsers.php');
+                }
             }
         } else {
             header("location: ../View/register.php?" . "&errors=" . $errors);
         }
     } else {
-        var_dump("hellooo");
-        return;
+        header("location: ../index.php?" . "&errors=some Thing wrong try again");
+// return;
     }
 }
