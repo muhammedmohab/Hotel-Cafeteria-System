@@ -29,6 +29,12 @@
 			if (strpos($err,"image")!=false){
 				$errorsFounded["image"]=$err;
 			}
+			if (strpos($err,"imageSize")!=false){
+				$errorsFounded["imageSize"]=$err;
+			}
+			if (strpos($err,"imageExtension")!=false){
+				$errorsFounded["imageExtension"]=$err;
+			}
 		}
 	}
 							?>
@@ -71,7 +77,7 @@
 		<div class="container">
 			<div class="row align-items-center justify-content-between d-flex">
 				<div id="logo">
-					<a href="../index.html"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+					<a href="../index.php"><img src="../Assets/img/logo.png" alt="" title="" /></a>
 				</div>
 				<nav id="nav-menu-container">
                     <ul class="nav-menu">
@@ -158,6 +164,10 @@
 							<?php 
 								if (isset($errorsFounded['image']))
 								echo "<p class='text-danger message'> ${errorsFounded['image']}</p>";
+								if (isset($errorsFounded['imageSize']))
+								echo "<p class='text-danger message'> ${errorsFounded['imageSize']}</p>";
+								if (isset($errorsFounded['imageExtension']))
+								echo "<p class='text-danger message'> ${errorsFounded['imageExtension']}</p>";
 							?>
 						</div>
 						<div class="switch-wrap d-flex justify-content-between mt-3 ml-15 border p-2">

@@ -50,17 +50,17 @@ function validateImage(): bool
         $expensions = array("jpeg", "jpg", "png");
 
         if (in_array($file_ext, $expensions) === false) {
-            $error = $error . "&imageError=extension not allowed, please choose a JPEG or PNG file.";
+            $error = $error . "imageExtension extension not allowed, please choose a JPEG or PNG file;";
         }
 
         if (empty($_FILES['image']['name'])) {
-            $error = $error . "&imageError=image upload is required";
+            $error = $error . "image is required;";
         }
         if ($file_size > 2097152) {
-            $error = $error . "&imageError=File size must be excately 2 MB";
+            $error = $error . "imageSize must be excately 2 MB;";
         }
     } else
-        $error = $error . "This field is required";
+        $error = $error . "image is required;";
     if (empty($error))
         return true;
     else
@@ -93,6 +93,9 @@ function  validationRegister($dbuser)
                 if (validateImage()) {
                     $newUser = new User($_POST["name"], $_POST["email"], $_POST["password"], $_POST["room_number"], $_FILES["image"]['name'], $role);
                     $dbuser->insertUser($newUser);
+                    if (!file_exists('../public/images/profile_images')||!is_dir('../public/images/profile_images')) {
+                        mkdir('../public/images/profile_images', 0777, true);
+                    }
                     move_uploaded_file(
                         $_FILES['image']['tmp_name'],
                         "../public/images/profile_images/".$_FILES['image']['name']

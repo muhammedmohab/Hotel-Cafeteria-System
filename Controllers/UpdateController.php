@@ -109,7 +109,7 @@ function checkfileextension()
 }
 
 if ($_REQUEST["old_image"] && empty($_FILES['image']['name'])) {
-    $file_name = $_REQUEST["old_image"];
+    $file_name =substr(trim($_REQUEST["old_image"]),strlen($userid));
 } else {
     checkfileextension();
 }
@@ -131,6 +131,9 @@ if (count($errors) > 0) {
 $userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $userid.$file_name);
 $op->updateUser(intVal($userid), $userupdate);
 
+if (!file_exists('../public/images/profile_images')||!is_dir('../public/images/profile_images')) {
+    mkdir('../public/images/profile_images', 0777, true);
+}
 
 move_uploaded_file($file_tmp, "../public/images/profile_images/".$userid.$file_name);
 // show the lines (users) in file in the table

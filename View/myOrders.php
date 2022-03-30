@@ -49,7 +49,7 @@ $userId = $_SESSION["authId"];
     <div class="container">
       <div class="row align-items-center justify-content-between d-flex">
         <div id="logo">
-          <a href="#"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+          <a href="../index.php"><img src="../Assets/img/logo.png" alt="" title="" /></a>
         </div>
         <nav id="nav-menu-container">
           <ul class="nav-menu">
