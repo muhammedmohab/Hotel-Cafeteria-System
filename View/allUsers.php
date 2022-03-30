@@ -137,7 +137,7 @@ if (!$_SESSION["authRole"]) {
                             }
                             echo "
                            <td><a class='genric-btn info circle small py-1 my-2' href='updateUser.php?id=$id' role='button'>Update</a>
-                           <a class='genric-btn danger circle small py-1 my-2' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Cancel</a>
+                           <a class='genric-btn danger circle small py-1 my-2' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Delete</a>
                            </td>
                            </tr>";
                             echo '
