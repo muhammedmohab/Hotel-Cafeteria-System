@@ -85,6 +85,10 @@ function updateProduct(ProductQueryModel $dbProduct)
         $validateImage = validateImage();
         if ($validateImage) {
             $imageName = $_REQUEST["productId"] . $_FILES['image']['name'];
+            if (!file_exists('../public/images/products_images')||!is_dir('../public/images/products_images')) {
+                // var_dump("sssssssssssssssssssss");
+                mkdir('../public/images/products_images', 0777, true);
+            }
             move_uploaded_file(
                 $_FILES['image']['tmp_name'],
                 "../public/images/products_images/$imageName"
@@ -126,6 +130,10 @@ function storeProduct(ProductQueryModel $dbProduct)
         );
         if ($dbProduct->insertProduct($newProduct) && $dbProduct->updateProductImage()) {
             $imageid = $dbProduct->getlastProduct()['id'];
+            if (!file_exists('../public/images/products_images')||!is_dir('../public/images/products_images')) {
+                // var_dump("sssssssssssssssssssss");
+                mkdir('../public/images/products_images', 0777, true);
+            }
             move_uploaded_file(
                 $_FILES['image']['tmp_name'],
                 "../public/images/products_images/$imageid$imageName"

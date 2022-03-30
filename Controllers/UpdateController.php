@@ -12,7 +12,7 @@ $userid = $_REQUEST["id"];
 
 
 foreach ($_REQUEST as $key => $val) {
-    if($key=="old_image"){
+    if ($key == "old_image") {
         continue;
     }
     if (empty($_REQUEST[$key])) {
@@ -109,7 +109,8 @@ function checkfileextension()
 }
 
 if ($_REQUEST["old_image"] && empty($_FILES['image']['name'])) {
-    $file_name = $_REQUEST["old_image"];
+    $file_name = preg_replace('/^' . $userid . '/', '', $_REQUEST["old_image"]);
+    rename( "../public/images/profile_images/".$_REQUEST["old_image"],"../public/images/profile_images/".$userid . $file_name) ;
 } else {
     checkfileextension();
 }
@@ -128,11 +129,14 @@ if (count($errors) > 0) {
 
 
 
-$userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $userid.$file_name);
+$userupdate = new User($_REQUEST["username"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["roomNo"], $userid . $file_name);
 $op->updateUser(intVal($userid), $userupdate);
 
+if (!file_exists('../public/images/profile_images') || !is_dir('../public/images/profile_images')) {
+    mkdir('../public/images/profile_images', 0777, true);
+}
 
-move_uploaded_file($file_tmp, "../public/images/profile_images/".$userid.$file_name);
+move_uploaded_file($file_tmp, "../public/images/profile_images/" . $userid . $file_name);
 // show the lines (users) in file in the table
 
 header("Location:../View/allUsers.php");

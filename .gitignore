@@ -1,4 +1,5 @@
 .env
 .vscode
-public/images/*
+public/images/profile_images/*
+public/images/products_images/*
 !public/images/Readme_File

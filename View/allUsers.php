@@ -48,7 +48,7 @@ if (!$_SESSION["authRole"]) {
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="#"><img src="../Assets/img/logo.png" alt="" title="" /></a>
+                    <a href="../index.php"><img src="../Assets/img/logo.png" alt="" title="" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
@@ -137,7 +137,7 @@ if (!$_SESSION["authRole"]) {
                             }
                             echo "
                            <td><a class='genric-btn info circle small py-1 my-2' href='updateUser.php?id=$id' role='button'>Update</a>
-                           <a class='genric-btn danger circle small py-1 my-2' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Cancel</a>
+                           <a class='genric-btn danger circle small py-1 my-2' style='color:white' role='button' data-bs-toggle='modal' data-bs-target='#DeleteModal' data-id='$id'>Delete</a>
                            </td>
                            </tr>";
                             echo '
@@ -295,7 +295,7 @@ if (!$_SESSION["authRole"]) {
 
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[2];
+                td = tr[i].getElementsByTagName("td")[1];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
